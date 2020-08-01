@@ -1,14 +1,12 @@
 package TennisReservation;
 
 import java.io.Console;
-import java.sql.Date;
-import java.util.Scanner;
+import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -21,6 +19,8 @@ public class App {
 
         Console console = System.console();
         String password = new String(console.readPassword("Enter Password: "));
+        String park = new String(console.readLine("Enter Park: "));
+        int day = Integer.parseInt(console.readLine("Enter Day of Month: "));
 
         System.setProperty("webdriver.chrome.driver", "/Users/ajaypatel/Desktop/TennisReservation/TennisReservation/src/chromedriver");
         WebDriver driver = new ChromeDriver();
@@ -35,11 +35,24 @@ public class App {
         
         String ParkDropdown = "//*[@id='u6510_selectFacilityReservationSearchSite']";
 
+        String SelectedPark = "";
         String ParkMarcelLaurin = "//*[@id='u6510_selectFacilityReservationSearchSite']/option[20]";
         String ParkMarlBorough = "//*[@id='u6510_selectFacilityReservationSearchSite']/option[21]";
         String ParkNoelSud = "//*[@id='u6510_selectFacilityReservationSearchSite']/option[25]";
 
-        String specificdate = "//span[text()='" + 27 + "']";
+        switch(park) {
+            case "Marcel":
+                SelectedPark = ParkMarcelLaurin;
+                break;
+            case "Marl":
+                SelectedPark = ParkMarlBorough;
+                break;
+            case "Noel":
+                SelectedPark = ParkNoelSud;
+                break;
+        }
+        
+        String specificdate = "//span[text()='" + day + "']";
         String removedate = "//*[@id='formSearch']/u2000-search-header/div/div[2]/div[2]/div/div/div[4]/ul/li/i";
 
         String StartTime = "//*[@id='u6510_edFacilityReservationSearchStartTime']/tbody/tr[2]/td[1]/input";
@@ -65,17 +78,20 @@ public class App {
         String ConditionOne = "//*[@id='u3600_chkElectronicPaymentCondition']";
         String ConditionTwo = "//*[@id='u3600_chkLocationCondition']";
         String FinalConfirmation = "//*[@id='u3600_btnCartPaymentCompleteStep']";
-
         
         modalLoad(driver);
 
         waitThenClick(driver, datexpath);
-        waitThenClick(driver, specificdate);
+
+        //gets list of all parts of calendar that match, in the case of two that match, create List and choose last occurence
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(specificdate)));
+        List<WebElement> dateChoice = driver.findElements(By.xpath(specificdate)); 
+        dateChoice.get(dateChoice.size()-1).click();
 
         modalLoad(driver);
         
         waitThenClick(driver, ParkDropdown);
-        waitThenClick(driver, ParkMarcelLaurin);
+        waitThenClick(driver, SelectedPark);
         
 
         WebElement StartRange = driver.findElement(By.xpath(StartTime));
@@ -115,12 +131,8 @@ public class App {
         waitThenClick(driver, ConditionOne);
         waitThenClick(driver, ConditionTwo);
 
-        WebElement ConfirmTennisCourt = driver.findElement(By.xpath(FinalConfirmation));
-        //ConfirmTennisCourt.click(); //keep this commented out
-
-
-
-
+        //waitThenClick(driver, FinalConfirmation);
+       
 
     }
 
@@ -128,7 +140,6 @@ public class App {
         WebDriverWait wait = new WebDriverWait(driver, 15);
         String modalloading = "//*[@id='U2000_BusyIndicator']";
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(modalloading)));
-        System.out.println("modal visible");
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(modalloading)));
     }
 
