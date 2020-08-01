@@ -21,6 +21,7 @@ public class App {
 
         Console console = System.console();
         String password = new String(console.readPassword("Enter Password: "));
+
         System.setProperty("webdriver.chrome.driver", "/Users/ajaypatel/Desktop/TennisReservation/TennisReservation/src/chromedriver");
         WebDriver driver = new ChromeDriver();
         driver.get("https://loisirs.montreal.ca/IC3/#/U6510/search/?searchParam=%7B%22filter%22:%7B%22isCollapsed%22:false,%22value%22:%7B%22dates%22:%5B%222020-08-01T00:00:00.000-04:00%22%5D,%22boroughIds%22:%2217%22%7D%7D,%22search%22:%22tennis%22,%22sortable%22:%7B%22isOrderAsc%22:true,%22column%22:%22facility.name%22%7D%7D&bids=26,35,35");
@@ -65,72 +66,56 @@ public class App {
         String ConditionTwo = "//*[@id='u3600_chkLocationCondition']";
         String FinalConfirmation = "//*[@id='u3600_btnCartPaymentCompleteStep']";
 
+        
         modalLoad(driver);
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(datexpath)));
-        WebElement dateChoice = driver.findElement(By.xpath(datexpath));
-        dateChoice.click();
-
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(specificdate)));
-        WebElement date = driver.findElement(By.xpath(specificdate));
-        date.click();
+        waitThenClick(driver, datexpath);
+        waitThenClick(driver, specificdate);
 
         modalLoad(driver);
         
-        WebElement Site = driver.findElement(By.xpath(ParkDropdown));
-        Site.click();
-
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(ParkMarcelLaurin)));
-        WebElement Park = driver.findElement(By.xpath(ParkMarcelLaurin));
-        Park.click();
+        waitThenClick(driver, ParkDropdown);
+        waitThenClick(driver, ParkMarcelLaurin);
+        
 
         WebElement StartRange = driver.findElement(By.xpath(StartTime));
         StartRange.sendKeys("17");
         WebElement EndRange = driver.findElement(By.xpath(EndTime));
         EndRange.sendKeys("20");
 
-        WebElement RemoveDate = driver.findElement(By.xpath(removedate));
-        RemoveDate.click();
+        waitThenClick(driver, removedate);
+        waitThenClick(driver, Connexion);
 
-        WebElement Login = driver.findElement(By.xpath(Connexion));
-        Login.click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(Courriel)));
         WebElement Email = driver.findElement(By.xpath(Courriel));
         WebElement Pass = driver.findElement(By.xpath(MotDePasse));
         Email.sendKeys("ajaypatel24@hotmail.com");
         Pass.sendKeys(password);
         
-        WebElement Confirm = driver.findElement(By.xpath(MeConnecter));
-        Confirm.click();
+        waitThenClick(driver, MeConnecter);
 
         modalLoad(driver);
 
-        WebElement TennisCourt = driver.findElement(By.xpath(Court));
-        TennisCourt.click();
+        waitThenClick(driver, Court);
 
         modalLoad(driver);
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(User)));
-        WebElement UserAccount = driver.findElement(By.xpath(User));
-        UserAccount.click();
-        modalLoad(driver);
-
-        WebElement ConfirmerSelection = driver.findElement(By.xpath(ConfirmerPanier));
-        ConfirmerSelection.click();
+        waitThenClick(driver, User);
 
         modalLoad(driver);
 
-        WebElement SectionPanier = driver.findElement(By.xpath(SectionPanierTerminee));
-        SectionPanier.click();
+        waitThenClick(driver, ConfirmerPanier);
+       
+        modalLoad(driver);
+
+        waitThenClick(driver, SectionPanierTerminee);
 
         modalLoad(driver);
 
-        WebElement ConditionOneClick = driver.findElement(By.xpath(ConditionOne));
-        WebElement ConditionTwoClick = driver.findElement(By.xpath(ConditionTwo));
+        waitThenClick(driver, ConditionOne);
+        waitThenClick(driver, ConditionTwo);
+
         WebElement ConfirmTennisCourt = driver.findElement(By.xpath(FinalConfirmation));
-
-        ConditionOneClick.click();
-        ConditionTwoClick.click();
         //ConfirmTennisCourt.click(); //keep this commented out
 
 
