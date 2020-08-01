@@ -1,0 +1,10 @@
+.vscode
+.DS_Store
+.settings
+.classpath
+.project
+
+*.class
+*.jar
+*.war
+*.ear
