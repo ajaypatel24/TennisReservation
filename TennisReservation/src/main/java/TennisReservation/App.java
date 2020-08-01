@@ -1,5 +1,9 @@
 package TennisReservation;
 
+import java.io.Console;
+import java.sql.Date;
+import java.util.Scanner;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -15,36 +19,56 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class App {
     public static void main(String[] args) {
 
-        System.setProperty("webdriver.chrome.driver",
-                "/Users/ajaypatel/Desktop/TennisReservation/TennisReservation/src/chromedriver");
+        Console console = System.console();
+        String password = new String(console.readPassword("Enter Password: "));
+        System.setProperty("webdriver.chrome.driver", "/Users/ajaypatel/Desktop/TennisReservation/TennisReservation/src/chromedriver");
         WebDriver driver = new ChromeDriver();
-
-        driver.get(
-                "https://loisirs.montreal.ca/IC3/#/U6510/search/?searchParam=%7B%22filter%22:%7B%22isCollapsed%22:false,%22value%22:%7B%22dates%22:%5B%222020-08-01T00:00:00.000-04:00%22%5D,%22boroughIds%22:%2217%22%7D%7D,%22search%22:%22tennis%22,%22sortable%22:%7B%22isOrderAsc%22:true,%22column%22:%22facility.name%22%7D%7D&bids=26,35,35");
+        driver.get("https://loisirs.montreal.ca/IC3/#/U6510/search/?searchParam=%7B%22filter%22:%7B%22isCollapsed%22:false,%22value%22:%7B%22dates%22:%5B%222020-08-01T00:00:00.000-04:00%22%5D,%22boroughIds%22:%2217%22%7D%7D,%22search%22:%22tennis%22,%22sortable%22:%7B%22isOrderAsc%22:true,%22column%22:%22facility.name%22%7D%7D&bids=26,35,35");
+        
         System.out.println(driver.getTitle());
 
         WebDriverWait wait = new WebDriverWait(driver, 15);
 
+        //Filters
         String datexpath = "//*[@id='u6510_btnFacilityReservationSearchReserveDateCalendar']";
         
         String ParkDropdown = "//*[@id='u6510_selectFacilityReservationSearchSite']";
+
         String ParkMarcelLaurin = "//*[@id='u6510_selectFacilityReservationSearchSite']/option[20]";
         String ParkMarlBorough = "//*[@id='u6510_selectFacilityReservationSearchSite']/option[21]";
         String ParkNoelSud = "//*[@id='u6510_selectFacilityReservationSearchSite']/option[25]";
-        String specificdate = "//span[text()='12']";
+
+        String specificdate = "//span[text()='" + 27 + "']";
         String removedate = "//*[@id='formSearch']/u2000-search-header/div/div[2]/div[2]/div/div/div[4]/ul/li/i";
-        String specificdateselector = "button#datepicker-2748-6968-24";
-//*[@id="datepicker-1405-2092-9"]/button
-//*[@id="datepicker-640-9096-9"]/button
-//*[@id="datepicker-640-2743-9"]/button
-//*[@id="datepicker-640-1009-9"]/button
-//*[@id="datepicker-637-812-9"]/button
-//#datepicker-2748-6968-24 > button
+
+        String StartTime = "//*[@id='u6510_edFacilityReservationSearchStartTime']/tbody/tr[2]/td[1]/input";
+        String EndTime = "//*[@id='u6510_edFacilityReservationSearchEndTime']/tbody/tr[2]/td[1]/input";
+
+        //Login
+        String Connexion = "//*[@id='u2000_btnSignIn']";
+        String Courriel = "//*[@id='loginForm:username']";
+        String MotDePasse = "//*[@id='loginForm:password']";
+        String MeConnecter = "//*[@id='loginForm:loginButton']";
+
+        //Select Court
+        String Court = "//*[@id='u6510_btnButtonReservation1']";
+
+        //Select Card and Confirm
+        String User = "//*[@id='u3600_btnSelect0']";
+        String ConfirmerPanier = "//*[@id='u3600_btnCartMemberCheckout']";
+
+        //Confirmation Page 1
+        String SectionPanierTerminee = "//*[@id='u3600_btnCartShoppingCompleteStep']";
+
+        //Confirmation Page 2
+        String ConditionOne = "//*[@id='u3600_chkElectronicPaymentCondition']";
+        String ConditionTwo = "//*[@id='u3600_chkLocationCondition']";
+        String FinalConfirmation = "//*[@id='u3600_btnCartPaymentCompleteStep']";
+
         modalLoad(driver);
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(removedate)));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(datexpath)));
         WebElement dateChoice = driver.findElement(By.xpath(datexpath));
-        // if (dateChoice.isDisplayed() && dateChoice.isEnabled()) {
         dateChoice.click();
 
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(specificdate)));
@@ -52,30 +76,65 @@ public class App {
         date.click();
 
         modalLoad(driver);
-        // }
-        /*
-         * wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(
-         * specificdate))); WebElement Date =
-         * driver.findElement(By.xpath(specificdate)); Date.click();
-         */
-        try {
-            Thread.sleep(200);
-        } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
         
         WebElement Site = driver.findElement(By.xpath(ParkDropdown));
         Site.click();
+
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(ParkMarcelLaurin)));
         WebElement Park = driver.findElement(By.xpath(ParkMarcelLaurin));
         Park.click();
-        
+
+        WebElement StartRange = driver.findElement(By.xpath(StartTime));
+        StartRange.sendKeys("17");
+        WebElement EndRange = driver.findElement(By.xpath(EndTime));
+        EndRange.sendKeys("20");
+
         WebElement RemoveDate = driver.findElement(By.xpath(removedate));
         RemoveDate.click();
 
-        //driver.close();
+        WebElement Login = driver.findElement(By.xpath(Connexion));
+        Login.click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(Courriel)));
+        WebElement Email = driver.findElement(By.xpath(Courriel));
+        WebElement Pass = driver.findElement(By.xpath(MotDePasse));
+        Email.sendKeys("ajaypatel24@hotmail.com");
+        Pass.sendKeys(password);
+        
+        WebElement Confirm = driver.findElement(By.xpath(MeConnecter));
+        Confirm.click();
+
+        modalLoad(driver);
+
+        WebElement TennisCourt = driver.findElement(By.xpath(Court));
+        TennisCourt.click();
+
+        modalLoad(driver);
+
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(User)));
+        WebElement UserAccount = driver.findElement(By.xpath(User));
+        UserAccount.click();
+        modalLoad(driver);
+
+        WebElement ConfirmerSelection = driver.findElement(By.xpath(ConfirmerPanier));
+        ConfirmerSelection.click();
+
+        modalLoad(driver);
+
+        WebElement SectionPanier = driver.findElement(By.xpath(SectionPanierTerminee));
+        SectionPanier.click();
+
+        modalLoad(driver);
+
+        WebElement ConditionOneClick = driver.findElement(By.xpath(ConditionOne));
+        WebElement ConditionTwoClick = driver.findElement(By.xpath(ConditionTwo));
+        WebElement ConfirmTennisCourt = driver.findElement(By.xpath(FinalConfirmation));
+
+        ConditionOneClick.click();
+        ConditionTwoClick.click();
+        //ConfirmTennisCourt.click(); //keep this commented out
+
+
+
 
 
     }
@@ -87,4 +146,13 @@ public class App {
         System.out.println("modal visible");
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(modalloading)));
     }
+
+    public static void waitThenClick(WebDriver driver, String xpath) {
+        WebDriverWait wait = new WebDriverWait(driver, 15);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(xpath)));
+        WebElement dateChoice = driver.findElement(By.xpath(xpath));
+        dateChoice.click();
+    }
+
+
 }
