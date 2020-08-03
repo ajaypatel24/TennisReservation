@@ -1,12 +1,9 @@
 package TennisReservation;
 
 import java.io.Console;
-import java.io.File;
-import java.util.Collections;
 import java.util.List;
 
 import org.apache.maven.shared.invoker.DefaultInvocationRequest;
-import org.apache.maven.shared.invoker.DefaultInvoker;
 import org.apache.maven.shared.invoker.InvocationRequest;
 import org.apache.maven.shared.invoker.Invoker;
 import org.apache.maven.shared.invoker.MavenInvocationException;
@@ -16,13 +13,16 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.quartz.Job;
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
 
 /**
  * Hello world!
  *
  */
-public class App {
-    public static void main(String[] args) {
+public class App implements Job {
+    public void execute(JobExecutionContext arg0) throws JobExecutionException {
         
         Console console = System.console();
         String password = new String(console.readPassword("Enter Password: "));
@@ -140,7 +140,7 @@ public class App {
         modalLoad(driver);
 
         String info = driver.findElement(By.xpath(DateInformation)).getText();
-        
+
         System.out.println(info);
 
         waitThenClick(driver, Reserver);
@@ -166,7 +166,8 @@ public class App {
         */
 
         //waitThenClick(driver, FinalConfirmation);
-
+        driver.close();
+        return;
 
     }
 
