@@ -21,15 +21,11 @@ import org.openqa.selenium.support.ui.WebDriverWait;
  * Hello world!
  *
  */
-public class App {
-    public static void main(String[] args) {
+public class TennisTest {
+
+    public boolean TennisTestExecution(String password, String park, String day, String timeStart, String timeEnd ) {
         
-        Console console = System.console();
-        String password = new String(console.readPassword("Enter Password: "));
-        String park = new String(console.readLine("Enter Park: "));
-        String day = new String(console.readLine("Enter Day of Month: "));
-        String timeStart = console.readLine("Enter Start Time: ");
-        String timeEnd = console.readLine("Enter End Time: ");
+        
 
         System.setProperty("webdriver.chrome.driver", "/Users/ajaypatel/Desktop/TennisReservation/TennisReservation/src/chromedriver");
         WebDriver driver = new ChromeDriver();
@@ -132,7 +128,7 @@ public class App {
        
         try {
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(NoResult)));
-            return;
+            return false;
         }
         catch (Exception e) {
             waitThenClick(driver, Court1);
@@ -145,7 +141,7 @@ public class App {
 
         waitThenClick(driver, Reserver);
 
-        /*
+        
         modalLoad(driver);
 
         waitThenClick(driver, User);
@@ -163,11 +159,11 @@ public class App {
         waitThenClick(driver, ConditionOne);
         waitThenClick(driver, ConditionTwo);
         
-        */
+        
 
         //waitThenClick(driver, FinalConfirmation);
 
-
+        return true;
     }
 
     public static void modalLoad(WebDriver driver) {
