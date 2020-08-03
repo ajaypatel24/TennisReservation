@@ -3,7 +3,7 @@
 .settings
 .classpath
 .project
-
+./target
 *.class
 *.jar
 *.war
