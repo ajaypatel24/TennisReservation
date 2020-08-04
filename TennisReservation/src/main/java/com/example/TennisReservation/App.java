@@ -1,12 +1,11 @@
-package TennisReservation;
+package com.example.TennisReservation;
 
 import java.io.Console;
-import java.io.File;
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.maven.shared.invoker.DefaultInvocationRequest;
-import org.apache.maven.shared.invoker.DefaultInvoker;
 import org.apache.maven.shared.invoker.InvocationRequest;
 import org.apache.maven.shared.invoker.Invoker;
 import org.apache.maven.shared.invoker.MavenInvocationException;
@@ -16,13 +15,21 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.quartz.Job;
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Hello world!
  *
  */
+@RestController
 public class App {
-    public static void main(String[] args) {
+
+    @RequestMapping("/Run")
+    public Map<String,String> execute() {
         
         Console console = System.console();
         String password = new String(console.readPassword("Enter Password: "));
@@ -132,7 +139,9 @@ public class App {
        
         try {
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(NoResult)));
-            return;
+            Map<String,String> res = new HashMap<>();
+            res.put("Status", "Fail");
+            return res;
         }
         catch (Exception e) {
             waitThenClick(driver, Court1);
@@ -140,12 +149,12 @@ public class App {
         modalLoad(driver);
 
         String info = driver.findElement(By.xpath(DateInformation)).getText();
-        
+
         System.out.println(info);
 
         waitThenClick(driver, Reserver);
 
-        /*
+        
         modalLoad(driver);
 
         waitThenClick(driver, User);
@@ -162,11 +171,14 @@ public class App {
 
         waitThenClick(driver, ConditionOne);
         waitThenClick(driver, ConditionTwo);
+
+        waitThenClick(driver, FinalConfirmation);
+        driver.close();
         
-        */
-
-        //waitThenClick(driver, FinalConfirmation);
-
+        Map<String,String> res = new HashMap<>();
+        res.put("Status", "Success");
+        return res;
+        
 
     }
 

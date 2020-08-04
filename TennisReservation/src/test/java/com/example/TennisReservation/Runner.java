@@ -1,4 +1,4 @@
-package TennisReservation;
+package com.example.TennisReservation;
 
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;

@@ -1,4 +1,4 @@
-package TennisReservation;
+package com.example.TennisReservation;
 
 import static org.junit.Assert.assertEquals;
 import java.io.Console;
@@ -13,7 +13,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import org.springframework.boot.test.context.SpringBootTest;
 
+
+@SpringBootTest
 @RunWith(Parameterized.class)
 public class ExecuteTennisTest {
     private String password;
