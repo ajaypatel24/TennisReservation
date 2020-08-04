@@ -1,7 +1,9 @@
-package TennisReservation;
+package com.example.TennisReservation;
 
 import java.io.Console;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.maven.shared.invoker.DefaultInvocationRequest;
 import org.apache.maven.shared.invoker.InvocationRequest;
@@ -16,13 +18,18 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Hello world!
  *
  */
-public class App implements Job {
-    public void execute(JobExecutionContext arg0) throws JobExecutionException {
+@RestController
+public class App {
+
+    @RequestMapping("/Run")
+    public Map<String,String> execute() {
         
         Console console = System.console();
         String password = new String(console.readPassword("Enter Password: "));
@@ -132,7 +139,9 @@ public class App implements Job {
        
         try {
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(NoResult)));
-            return;
+            Map<String,String> res = new HashMap<>();
+            res.put("Status", "Fail");
+            return res;
         }
         catch (Exception e) {
             waitThenClick(driver, Court1);
@@ -145,7 +154,7 @@ public class App implements Job {
 
         waitThenClick(driver, Reserver);
 
-        /*
+        
         modalLoad(driver);
 
         waitThenClick(driver, User);
@@ -162,12 +171,14 @@ public class App implements Job {
 
         waitThenClick(driver, ConditionOne);
         waitThenClick(driver, ConditionTwo);
-        
-        */
 
-        //waitThenClick(driver, FinalConfirmation);
+        waitThenClick(driver, FinalConfirmation);
         driver.close();
-        return;
+        
+        Map<String,String> res = new HashMap<>();
+        res.put("Status", "Success");
+        return res;
+        
 
     }
 
