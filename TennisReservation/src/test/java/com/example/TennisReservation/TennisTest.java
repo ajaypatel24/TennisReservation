@@ -1,15 +1,7 @@
 package com.example.TennisReservation;
 
-import java.io.Console;
-import java.io.File;
-import java.util.Collections;
 import java.util.List;
 
-import org.apache.maven.shared.invoker.DefaultInvocationRequest;
-import org.apache.maven.shared.invoker.DefaultInvoker;
-import org.apache.maven.shared.invoker.InvocationRequest;
-import org.apache.maven.shared.invoker.Invoker;
-import org.apache.maven.shared.invoker.MavenInvocationException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -70,7 +62,7 @@ public class TennisTest {
         String MeConnecter = "//*[@id='loginForm:loginButton']";
 
         //Select Court
-        String Court = "//*[@id='u6510_btnButtonReservation1']";
+        //String Court = "//*[@id='u6510_btnButtonReservation1']";
         String Court1 = "//*[@id='searchResult']/div[2]/div/table/tbody/tr[1]/td[3]";
 
         //Select Card and Confirm
@@ -84,7 +76,7 @@ public class TennisTest {
         //Confirmation Page 2
         String ConditionOne = "//*[@id='u3600_chkElectronicPaymentCondition']";
         String ConditionTwo = "//*[@id='u3600_chkLocationCondition']";
-        String FinalConfirmation = "//*[@id='u3600_btnCartPaymentCompleteStep']";
+        //String FinalConfirmation = "//*[@id='u3600_btnCartPaymentCompleteStep']";
 
         String DateInformation = "//*[@id='wrapper']/section/div/main/ng-view/div/otium-facility-reservation-view/div[1]/div[2]/div[2]/div[1]/div/p/span[1]";
         String NoResult = "//*[@id='wrapper']/section/div/main/ng-view/otium-facility-reservation-search/otium-search-footer/div/h5";

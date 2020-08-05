@@ -1,23 +1,16 @@
 package com.example.TennisReservation;
 
-import java.io.Console;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.maven.shared.invoker.DefaultInvocationRequest;
-import org.apache.maven.shared.invoker.InvocationRequest;
-import org.apache.maven.shared.invoker.Invoker;
-import org.apache.maven.shared.invoker.MavenInvocationException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.quartz.Job;
-import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,23 +21,27 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class App {
 
-    @RequestMapping("/Run")
-    public Map<String,String> execute() {
+    @RequestMapping("/Run/{Park}/{Day}/{StartTime}/{EndTime}")
+    public Map<String,String> execute(
+        @PathVariable("Park") String park, @PathVariable("Day") String day, @PathVariable("StartTime") String timeStart, @PathVariable("EndTime") String timeEnd
+    ) {
         
-        Console console = System.console();
-        String password = new String(console.readPassword("Enter Password: "));
-        String park = new String(console.readLine("Enter Park: "));
-        String day = new String(console.readLine("Enter Day of Month: "));
-        String timeStart = console.readLine("Enter Start Time: ");
-        String timeEnd = console.readLine("Enter End Time: ");
+        String password = ""; //new String(console.readPassword('Enter Password: '));
 
+       
         System.setProperty("webdriver.chrome.driver", "/Users/ajaypatel/Desktop/TennisReservation/TennisReservation/src/chromedriver");
+        /*
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("headless");
+        WebDriver driver = new ChromeDriver(options);
+        */
         WebDriver driver = new ChromeDriver();
         driver.get("https://loisirs.montreal.ca/IC3/#/U6510/search/?searchParam=%7B%22filter%22:%7B%22isCollapsed%22:false,%22value%22:%7B%22dates%22:%5B%222020-08-01T00:00:00.000-04:00%22%5D,%22boroughIds%22:%2217%22%7D%7D,%22search%22:%22tennis%22,%22sortable%22:%7B%22isOrderAsc%22:true,%22column%22:%22facility.name%22%7D%7D&bids=26,35,35");
         
         System.out.println(driver.getTitle());
 
         WebDriverWait wait = new WebDriverWait(driver, 15);
+        WebDriverWait waitFast = new WebDriverWait(driver, 5);
 
         //Filters
         String datexpath = "//*[@id='u6510_btnFacilityReservationSearchReserveDateCalendar']";
@@ -138,7 +135,7 @@ public class App {
 
        
         try {
-            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(NoResult)));
+            waitFast.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(NoResult)));
             Map<String,String> res = new HashMap<>();
             res.put("Status", "Fail");
             return res;
@@ -153,7 +150,6 @@ public class App {
         System.out.println(info);
 
         waitThenClick(driver, Reserver);
-
         
         modalLoad(driver);
 

@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+import {HashRouter, Route, Switch, Redirect} from 'react-router-dom'
 import logo from './logo.svg';
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import ReservationComponent from './Components/ReservationComponent';
 
 class App extends Component {
   state = {
@@ -20,16 +23,23 @@ class App extends Component {
 
   render() {
     const {Categories, isLoading} = this.state;
+    /*
     if (isLoading)
       return(<div>Loading...</div>);
-
+*/
     return (
       <div>
-        <h2> Result </h2>
+        <h2> Tennis Reservation Automation </h2>
 
       
             <div>
-                {this.state.Categories}
+                <HashRouter>
+                    <Switch>
+                      <Route exact path="/" component={ReservationComponent} />
+                    </Switch>
+
+
+                </HashRouter>
             </div>
          
         
