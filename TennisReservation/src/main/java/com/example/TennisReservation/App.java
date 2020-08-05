@@ -1,25 +1,38 @@
 package com.example.TennisReservation;
 
-import java.io.Console;
+import java.security.Key;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.KeySpec;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 
-import org.apache.maven.shared.invoker.DefaultInvocationRequest;
-import org.apache.maven.shared.invoker.InvocationRequest;
-import org.apache.maven.shared.invoker.Invoker;
-import org.apache.maven.shared.invoker.MavenInvocationException;
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.quartz.Job;
-import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.crypto.Cipher;
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.DESedeKeySpec;
+import javax.crypto.spec.GCMParameterSpec;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 
 /**
  * Hello world!
@@ -27,24 +40,32 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public class App {
+    
+    @RequestMapping("/Run/{Park}/{Day}/{StartTime}/{EndTime}")
+    public Map<String, String> execute(@PathVariable("Park") String park, @PathVariable("Day") String day,
+            @PathVariable("StartTime") String timeStart, @PathVariable("EndTime") String timeEnd) {
 
-    @RequestMapping("/Run")
-    public Map<String,String> execute() {
+        String password = "";
+        try {
+            File f = new File("/Users/i531287/Desktop/Tennis/TennisReservation/TennisReservation/src/sen.txt");
+            Scanner read;
+            read = new Scanner(f);
+            password = this.decrypt(read.nextLine());
+            read.close();
+        } catch (FileNotFoundException e1) {
+            e1.printStackTrace();
+        }
         
-        Console console = System.console();
-        String password = new String(console.readPassword("Enter Password: "));
-        String park = new String(console.readLine("Enter Park: "));
-        String day = new String(console.readLine("Enter Day of Month: "));
-        String timeStart = console.readLine("Enter Start Time: ");
-        String timeEnd = console.readLine("Enter End Time: ");
 
-        System.setProperty("webdriver.chrome.driver", "/Users/ajaypatel/Desktop/TennisReservation/TennisReservation/src/chromedriver");
+        System.setProperty("webdriver.chrome.driver", "/Users/i531287/Desktop/Tennis/TennisReservation/TennisReservation/src/chromedriver");
+  
         WebDriver driver = new ChromeDriver();
         driver.get("https://loisirs.montreal.ca/IC3/#/U6510/search/?searchParam=%7B%22filter%22:%7B%22isCollapsed%22:false,%22value%22:%7B%22dates%22:%5B%222020-08-01T00:00:00.000-04:00%22%5D,%22boroughIds%22:%2217%22%7D%7D,%22search%22:%22tennis%22,%22sortable%22:%7B%22isOrderAsc%22:true,%22column%22:%22facility.name%22%7D%7D&bids=26,35,35");
         
         System.out.println(driver.getTitle());
 
         WebDriverWait wait = new WebDriverWait(driver, 15);
+        WebDriverWait RapidCheck = new WebDriverWait(driver, 3);
 
         //Filters
         String datexpath = "//*[@id='u6510_btnFacilityReservationSearchReserveDateCalendar']";
@@ -81,12 +102,12 @@ public class App {
         String MeConnecter = "//*[@id='loginForm:loginButton']";
 
         //Select Court
-        String Court = "//*[@id='u6510_btnButtonReservation1']";
-        String Court1 = "//*[@id='searchResult']/div[2]/div/table/tbody/tr[1]/td[3]";
+        int count = 1;
+        String Court = "//*[@id='searchResult']/div[2]/div/table/tbody/tr[" + count + "]/td[3]";
+        //*[@id="searchResult"]/div[2]/div/table/tbody/tr[2]/td[3]
+        //*[@id="u6510_btnButtonReservation1"]
 
         //Select Card and Confirm
-        String Reserver = "//*[@id='u6510_btnReserveSecond']";
-        String User = "//*[@id='u3600_btnSelect0']";
         String ConfirmerPanier = "//*[@id='u3600_btnCartMemberCheckout']";
 
         //Confirmation Page 1
@@ -97,9 +118,9 @@ public class App {
         String ConditionTwo = "//*[@id='u3600_chkLocationCondition']";
         String FinalConfirmation = "//*[@id='u3600_btnCartPaymentCompleteStep']";
 
-        String DateInformation = "//*[@id='wrapper']/section/div/main/ng-view/div/otium-facility-reservation-view/div[1]/div[2]/div[2]/div[1]/div/p/span[1]";
-        String NoResult = "//*[@id='wrapper']/section/div/main/ng-view/otium-facility-reservation-search/otium-search-footer/div/h5";
-        
+       
+        String okButton = "/html/body/div[4]/div/div/div[3]/button";
+        String ContinueSearch = "//*[@id='u3600_btnCartMemberContinue']";
         modalLoad(driver);
 
         waitThenClick(driver, datexpath);
@@ -136,31 +157,24 @@ public class App {
 
         modalLoad(driver);
 
-       
+        reserveFlow(driver, Court);
+
         try {
-            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(NoResult)));
-            Map<String,String> res = new HashMap<>();
-            res.put("Status", "Fail");
-            return res;
+            RapidCheck.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(okButton)));
+            driver.findElement(By.xpath(okButton)).click();
+            wait.until(ExpectedConditions.elementToBeClickable(By.xpath(ContinueSearch)));
+            driver.findElement(By.xpath(ContinueSearch)).click();
+            driver.navigate().back();
+            count++;
+            Court = "//*[@id='searchResult']/div[2]/div/table/tbody/tr[" + count + "]/td[3]";
+            reserveFlow(driver, Court);
+
         }
         catch (Exception e) {
-            waitThenClick(driver, Court1);
+
         }
-        modalLoad(driver);
-
-        String info = driver.findElement(By.xpath(DateInformation)).getText();
-
-        System.out.println(info);
-
-        waitThenClick(driver, Reserver);
-
         
-        modalLoad(driver);
-
-        waitThenClick(driver, User);
-
-        modalLoad(driver);
-
+        
         waitThenClick(driver, ConfirmerPanier);
        
         modalLoad(driver);
@@ -172,16 +186,40 @@ public class App {
         waitThenClick(driver, ConditionOne);
         waitThenClick(driver, ConditionTwo);
 
-        waitThenClick(driver, FinalConfirmation);
+        //waitThenClick(driver, FinalConfirmation);
         driver.close();
         
         Map<String,String> res = new HashMap<>();
         res.put("Status", "Success");
         return res;
-        
 
     }
 
+    public static void reserveFlow(WebDriver driver, String Court) {
+        WebDriverWait waitFast = new WebDriverWait(driver, 3);
+        String NoResult = "//*[@id='wrapper']/section/div/main/ng-view/otium-facility-reservation-search/otium-search-footer/div/h5";
+        String DateInformation = "//*[@id='wrapper']/section/div/main/ng-view/div/otium-facility-reservation-view/div[1]/div[2]/div[2]/div[1]/div/p/span[1]";
+        String Reserver = "//*[@id='u6510_btnReserveSecond']";
+        String User = "//*[@id='u3600_btnSelect0']";
+
+        try {
+            waitFast.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(NoResult)));
+            Map<String,String> res = new HashMap<>();
+            res.put("Status", "Fail");
+            return;
+        }
+        catch (Exception e) {
+            waitThenClick(driver, Court);
+        }
+
+        modalLoad(driver);
+        String info = driver.findElement(By.xpath(DateInformation)).getText();
+        System.out.println(info);
+        waitThenClick(driver, Reserver);
+        modalLoad(driver);
+        waitThenClick(driver, User);
+        modalLoad(driver);
+    }
     public static void modalLoad(WebDriver driver) {
         WebDriverWait wait = new WebDriverWait(driver, 15);
         String modalloading = "//*[@id='U2000_BusyIndicator']";
@@ -194,6 +232,31 @@ public class App {
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(xpath)));
         WebElement dateChoice = driver.findElement(By.xpath(xpath));
         dateChoice.click();
+    }
+
+    public String decrypt(String word) {
+        SecretKeyFactory skf;
+        try {
+            skf = SecretKeyFactory.getInstance("DESede");
+            String EncryptKey = "ThisIsSpartaThisIsSparta";
+            byte[] arrayBytes = EncryptKey.getBytes("UTF8");
+            KeySpec ks = new DESedeKeySpec(arrayBytes);
+            SecretKey key = skf.generateSecret(ks);
+            Cipher cipher = Cipher.getInstance("DESede");
+
+            cipher.init(Cipher.DECRYPT_MODE, key);
+            byte[] encryptedText = Base64.getDecoder().decode(word);
+            byte[] plainText = cipher.doFinal(encryptedText);
+            String decrypt = new String(plainText);
+            return decrypt;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return "";
+
+        
+
     }
 
 
