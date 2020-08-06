@@ -1,5 +1,6 @@
 import React from 'react'
-import {Form, Col, Row, Card, Button, Jumbotron} from 'react-bootstrap'
+import { Form, Col, Row, Card, Button, Jumbotron, Nav } from 'react-bootstrap'
+import './styles.css'
 
 
 export default class ReservationComponent extends React.Component {
@@ -19,7 +20,7 @@ export default class ReservationComponent extends React.Component {
         };
     }
 
-    async handleSubmit (e) {
+    async handleSubmit(e) {
         e.preventDefault();
         var api = '/Run/' + this.state.Park + '/' + this.state.Day + '/' + this.state.StartTime + '/' + this.state.EndTime
         this.setState({
@@ -30,12 +31,12 @@ export default class ReservationComponent extends React.Component {
         });
         console.log(api);
         const response = await fetch(api);
-        
+
         const body = await response.json();
         console.log(body);
-        for (var x in body ) {
-        this.setState({Categories: body[x], isLoading: false});
-         }       
+        for (var x in body) {
+            this.setState({ Categories: body[x], isLoading: false });
+        }
     }
 
     handleChange(e) {
@@ -43,79 +44,104 @@ export default class ReservationComponent extends React.Component {
             [e.target.name]: e.target.value
         });
     }
-    
+
 
     render() {
         return (
-            <Form.Group controlId="validationCustom01">
-            <Row>
-            <Col lg="6">
-                <Form.Label>Start Time</Form.Label>
-                <Form.Control
-                    name="StartTime"
-                    required
-                    type="text"
-                    placeholder="Business Name"
-                    onChange={this.handleChange}
-                    value={this.state.StartTime}/>
-                <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-            </Col>
+            <div>
+                <Row>
+                    <Col lg="4">
+                <Card id="Card">
+                    <Card.Header><i class="fas fa-cloud">Reserve</i></Card.Header>
+                    <Card.Body>
+                <Form.Group id="ReserveForm">
 
-            <Col lg="6">
+                    <Row>
+                        <Col lg="12">
+                            <Form.Label>Park</Form.Label>
+                            <Form.Control as='select'
+                                name="Park"
+                                required
+                                type="text"
+                                placeholder="Business Name"
+                                onChange={this.handleChange}
+                                value={this.state.Park} >
+                                <option value="Marcel">Marcel-Laurin</option>
+                                <option value="Marl">Marlborough</option>
+                                <option value ="Noel">Noel-Sud</option>
+                                </Form.Control>
+                            <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                        </Col>
+                    </Row>
 
-                <Form.Label>End Time</Form.Label>
-                <Form.Control
-                    name="EndTime"
-                    required
-                    type="text"
-                    placeholder="City"
-                    onChange={this.handleChange}
-                    value={this.state.EndTime}
-                    pattern="^[a-zA-Z]+$"
-                />
+                    <br/>
+                    
+                    <Row>
 
-                <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                        <Col lg="12">
+                            <Row>
+                                <Col lg="3">
+                                    <Form.Label>Start Time</Form.Label>
+                                    <Form.Control
+                                        name="StartTime"
+                                        required
+                                        type="text"
+                                        placeholder="Start Time"
+                                        onChange={this.handleChange}
+                                        value={this.state.StartTime} />
+                                    <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                                </Col>
+                                <Col lg="3">
+                                    <Form.Label>End Time</Form.Label>
+                                    <Form.Control
+                                        name="EndTime"
+                                        required
+                                        type="text"
+                                        placeholder="End Time"
+                                        onChange={this.handleChange}
+                                        value={this.state.EndTime}
+                                        pattern="^[a-zA-Z]+$"
+                                    />
+                                    <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                                </Col>
+                                <Col lg="6">
 
-            </Col>
-            </Row>
+                            <Form.Label>Day</Form.Label>
+                            <Form.Control
+                                name="Day"
+                                required
+                                type="text"
+                                placeholder="Day of Month"
+                                onChange={this.handleChange}
+                                value={this.state.Day}
+                                pattern="^[a-zA-Z]+$"
+                            />
 
-            <Row>
-            <Col lg="6">
-                <Form.Label>Park</Form.Label>
-                <Form.Control
-                    name="Park"
-                    required
-                    type="text"
-                    placeholder="Business Name"
-                    onChange={this.handleChange}
-                    value={this.state.Park}/>
-                <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-            </Col>
+                            <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
 
-            <Col lg="6">
+                        </Col>
+                            </Row>
 
-                <Form.Label>Day</Form.Label>
-                <Form.Control
-                    name="Day"
-                    required
-                    type="text"
-                    placeholder="City"
-                    onChange={this.handleChange}
-                    value={this.state.Day}
-                    pattern="^[a-zA-Z]+$"
-                />
+                        </Col>
+                    </Row>
 
-                <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                    
+                    
+                    
 
-            </Col>
-            </Row>
+                    
 
-            <Button onClick={this.handleSubmit}>Submit</Button>
+                </Form.Group>
+                <Button onClick={this.handleSubmit}>Submit</Button>
+                </Card.Body>
+                
 
-            <Jumbotron>{this.state.Categories}</Jumbotron>
-        
-        </Form.Group>
-        
+
+                </Card>
+                </Col>
+                </Row>
+                </div>
+            
         );
     };
 
