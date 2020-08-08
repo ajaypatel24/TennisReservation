@@ -1,7 +1,5 @@
 package com.example.TennisReservation;
 
-import java.security.Key;
-import java.security.NoSuchAlgorithmException;
 import java.security.spec.KeySpec;
 import java.util.HashMap;
 import java.util.List;
@@ -9,7 +7,6 @@ import java.util.Map;
 import java.util.Scanner;
 
 import javax.crypto.Cipher;
-import javax.crypto.spec.SecretKeySpec;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -21,25 +18,20 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESedeKeySpec;
-import javax.crypto.spec.GCMParameterSpec;
+
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.nio.ByteBuffer;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
 /**
- * Hello world!
- *
+ * Reservation Controller
  */
 @RestController
-public class App {
+public class TennisReservationController {
 
     
     @RequestMapping("/Run/{Park}/{Day}/{StartTime}/{EndTime}")
@@ -57,7 +49,6 @@ public class App {
             e1.printStackTrace();
         }
         
-
         System.setProperty("webdriver.chrome.driver", "/Users/ajaypatel/Desktop/TennisReservation/TennisReservation/src/chromedriver");
   
         WebDriver driver = new ChromeDriver();
@@ -65,7 +56,8 @@ public class App {
         
         System.out.println(driver.getTitle());
 
-        WebDriverWait wait = new WebDriverWait(driver, 15);
+        Map<String,String> res = new HashMap<>();
+        WebDriverWait wait = new WebDriverWait(driver, 10);
         WebDriverWait RapidCheck = new WebDriverWait(driver, 3);
 
         //Filters
@@ -92,7 +84,7 @@ public class App {
         
         String specificdate = "//span[text()='" + day + "']";
         String removedate = "//*[@id='formSearch']/u2000-search-header/div/div[2]/div[2]/div/div/div[4]/ul/li/i";
-
+        String NoResult = "//*[@id='wrapper']/section/div/main/ng-view/otium-facility-reservation-search/otium-search-footer/div/h5";
         String StartTime = "//*[@id='u6510_edFacilityReservationSearchStartTime']/tbody/tr[2]/td[1]/input";
         String EndTime = "//*[@id='u6510_edFacilityReservationSearchEndTime']/tbody/tr[2]/td[1]/input";
 
@@ -105,8 +97,6 @@ public class App {
         //Select Court
         int count = 1;
         String Court = "//*[@id='searchResult']/div[2]/div/table/tbody/tr[" + count + "]/td[3]";
-        //*[@id="searchResult"]/div[2]/div/table/tbody/tr[2]/td[3]
-        //*[@id="u6510_btnButtonReservation1"]
 
         //Select Card and Confirm
         String ConfirmerPanier = "//*[@id='u3600_btnCartMemberCheckout']";
@@ -122,6 +112,7 @@ public class App {
        
         String okButton = "/html/body/div[4]/div/div/div[3]/button";
         String ContinueSearch = "//*[@id='u3600_btnCartMemberContinue']";
+
         modalLoad(driver);
 
         waitThenClick(driver, datexpath);
@@ -137,7 +128,6 @@ public class App {
         waitThenClick(driver, ParkDropdown);
         waitThenClick(driver, SelectedPark);
         
-
         WebElement StartRange = driver.findElement(By.xpath(StartTime));
         StartRange.sendKeys(timeStart);
         WebElement EndRange = driver.findElement(By.xpath(EndTime));
@@ -146,6 +136,16 @@ public class App {
         waitThenClick(driver, removedate);
 
         modalLoad(driver);
+        
+        try {
+            RapidCheck.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(NoResult)));
+            res.put("Status", "No Courts");
+            return res;
+        }
+        catch (Exception e) {
+        }
+
+        //Login flow
         waitThenClick(driver, Connexion);
 
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(Courriel)));
@@ -153,13 +153,16 @@ public class App {
         WebElement Pass = driver.findElement(By.xpath(MotDePasse));
         Email.sendKeys("ajaypatel24@hotmail.com");
         Pass.sendKeys(password);
-        
         waitThenClick(driver, MeConnecter);
+
+
 
         modalLoad(driver);
 
+        //reserve court
         reserveFlow(driver, Court);
 
+        //if reserved court violates back to back booking
         try {
             RapidCheck.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(okButton)));
             driver.findElement(By.xpath(okButton)).click();
@@ -174,8 +177,8 @@ public class App {
         catch (Exception e) {
 
         }
-        
-        
+
+        //Confirm booking
         waitThenClick(driver, ConfirmerPanier);
        
         modalLoad(driver);
@@ -190,29 +193,17 @@ public class App {
         waitThenClick(driver, FinalConfirmation);
         driver.close();
         
-        Map<String,String> res = new HashMap<>();
         res.put("Status", "Success");
         return res;
-
+        
     }
 
     public static void reserveFlow(WebDriver driver, String Court) {
-        WebDriverWait waitFast = new WebDriverWait(driver, 3);
-        String NoResult = "//*[@id='wrapper']/section/div/main/ng-view/otium-facility-reservation-search/otium-search-footer/div/h5";
         String DateInformation = "//*[@id='wrapper']/section/div/main/ng-view/div/otium-facility-reservation-view/div[1]/div[2]/div[2]/div[1]/div/p/span[1]";
         String Reserver = "//*[@id='u6510_btnReserveSecond']";
         String User = "//*[@id='u3600_btnSelect0']";
-
-        try {
-            waitFast.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(NoResult)));
-            Map<String,String> res = new HashMap<>();
-            res.put("Status", "Fail");
-            return;
-        }
-        catch (Exception e) {
-            waitThenClick(driver, Court);
-        }
-
+        
+        waitThenClick(driver, Court);
         modalLoad(driver);
         String info = driver.findElement(By.xpath(DateInformation)).getText();
         System.out.println(info);
@@ -222,14 +213,14 @@ public class App {
         modalLoad(driver);
     }
     public static void modalLoad(WebDriver driver) {
-        WebDriverWait wait = new WebDriverWait(driver, 15);
+        WebDriverWait wait = new WebDriverWait(driver, 10);
         String modalloading = "//*[@id='U2000_BusyIndicator']";
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(modalloading)));
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(modalloading)));
     }
 
     public static void waitThenClick(WebDriver driver, String xpath) {
-        WebDriverWait wait = new WebDriverWait(driver, 15);
+        WebDriverWait wait = new WebDriverWait(driver, 10);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(xpath)));
         WebElement dateChoice = driver.findElement(By.xpath(xpath));
         dateChoice.click();
