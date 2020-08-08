@@ -20,6 +20,7 @@ export default class ReservationComponent extends React.Component {
         };
     }
 
+   
     async handleSubmit(e) {
         e.preventDefault();
         var api = '/Run/' + this.state.Park + '/' + this.state.Day + '/' + this.state.StartTime + '/' + this.state.EndTime
@@ -52,23 +53,21 @@ export default class ReservationComponent extends React.Component {
                 <Row>
                     <Col lg="4">
                 <Card id="Card">
-                    <Card.Header><i class="fas fa-cloud">Reserve</i></Card.Header>
+                    <Card.Header>Reserve</Card.Header>
                     <Card.Body>
                 <Form.Group id="ReserveForm">
 
                     <Row>
                         <Col lg="12">
                             <Form.Label>Park</Form.Label>
-                            <Form.Control as='select'
+                            <Form.Control 
                                 name="Park"
                                 required
                                 type="text"
                                 placeholder="Business Name"
                                 onChange={this.handleChange}
                                 value={this.state.Park} >
-                                <option value="Marcel">Marcel-Laurin</option>
-                                <option value="Marl">Marlborough</option>
-                                <option value ="Noel">Noel-Sud</option>
+                                
                                 </Form.Control>
                             <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                         </Col>

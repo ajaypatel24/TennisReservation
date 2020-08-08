@@ -40,6 +40,7 @@ import java.util.Base64;
  */
 @RestController
 public class App {
+
     
     @RequestMapping("/Run/{Park}/{Day}/{StartTime}/{EndTime}")
     public Map<String, String> execute(@PathVariable("Park") String park, @PathVariable("Day") String day,
@@ -47,7 +48,7 @@ public class App {
 
         String password = "";
         try {
-            File f = new File("/Users/i531287/Desktop/Tennis/TennisReservation/TennisReservation/src/sen.txt");
+            File f = new File("/Users/ajaypatel/Desktop/TennisReservation/TennisReservation/src/sen.txt");
             Scanner read;
             read = new Scanner(f);
             password = this.decrypt(read.nextLine());
@@ -57,7 +58,7 @@ public class App {
         }
         
 
-        System.setProperty("webdriver.chrome.driver", "/Users/i531287/Desktop/Tennis/TennisReservation/TennisReservation/src/chromedriver");
+        System.setProperty("webdriver.chrome.driver", "/Users/ajaypatel/Desktop/TennisReservation/TennisReservation/src/chromedriver");
   
         WebDriver driver = new ChromeDriver();
         driver.get("https://loisirs.montreal.ca/IC3/#/U6510/search/?searchParam=%7B%22filter%22:%7B%22isCollapsed%22:false,%22value%22:%7B%22dates%22:%5B%222020-08-01T00:00:00.000-04:00%22%5D,%22boroughIds%22:%2217%22%7D%7D,%22search%22:%22tennis%22,%22sortable%22:%7B%22isOrderAsc%22:true,%22column%22:%22facility.name%22%7D%7D&bids=26,35,35");
@@ -186,7 +187,7 @@ public class App {
         waitThenClick(driver, ConditionOne);
         waitThenClick(driver, ConditionTwo);
 
-        //waitThenClick(driver, FinalConfirmation);
+        waitThenClick(driver, FinalConfirmation);
         driver.close();
         
         Map<String,String> res = new HashMap<>();

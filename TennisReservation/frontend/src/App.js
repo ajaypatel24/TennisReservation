@@ -15,15 +15,6 @@ class App extends Component {
   }
 
 
-  async componentDidMount() {
-    const response = await fetch('/Run');
-    const body = await response.json();
-    console.log(body);
-    for (var x in body ) {
-    this.setState({Categories: body[x], isLoading: false});
-    }
-  }
-
   render() {
     const {Categories, isLoading} = this.state;
     /*
