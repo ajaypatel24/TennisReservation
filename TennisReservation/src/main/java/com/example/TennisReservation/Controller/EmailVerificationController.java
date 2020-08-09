@@ -96,7 +96,7 @@ public class EmailVerificationController extends AppController {
             folder.open(Folder.READ_ONLY);
 
             SearchTerm sender = new FromTerm(new InternetAddress("NePasRepondre@montreal.ca"));
-            SearchTerm unread = new FlagTerm(new Flags(Flags.Flag.SEEN), true);
+            SearchTerm unread = new FlagTerm(new Flags(Flags.Flag.SEEN), false);
             SearchTerm[] filters = { sender, unread };
             SearchTerm search = new AndTerm(filters);
             Message[] messages = folder.search(search);
