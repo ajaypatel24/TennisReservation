@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Scanner;
 
@@ -68,7 +70,9 @@ public class EmailVerificationController extends AppController {
     }
 
     @RequestMapping("/VerificationEmail/")
-    public void readEmailConfirmation() throws IOException {
+    public Map<String, String> readEmailConfirmation() throws IOException {
+
+        Map<String, String> res = new HashMap<>();
         final String username = "ajaypatel24@hotmail.com";
         final String password = this.sendPass();
         final String host = "smtp-mail.outlook.com";
@@ -106,10 +110,12 @@ public class EmailVerificationController extends AppController {
                 getAttachment(messages[i]);
             }
 
-            System.out.println("Done");
+            res.put("Status", "Downloaded PDF's");
+            return res;
 
         } catch (MessagingException e) {
-            throw new RuntimeException(e);
+            res.put("Status", "Failed");
+            return res;
         }
     }
 
