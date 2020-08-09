@@ -20,7 +20,9 @@ export default class ReservationComponent extends React.Component {
         };
     }
 
-   
+    componentDidMount() {
+        fetch("/VerificationEmail/");
+    }
     async handleSubmit(e) {
         e.preventDefault();
         var api = '/Run/' + this.state.Park + '/' + this.state.Day + '/' + this.state.StartTime + '/' + this.state.EndTime
