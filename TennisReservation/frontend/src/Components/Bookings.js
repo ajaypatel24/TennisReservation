@@ -3,8 +3,11 @@ import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import './styles.css'
 
+
 export default function Bookings() {
   const [value, onChange] = useState(new Date());
+
+  
 
   return (
     <div>
@@ -14,6 +17,7 @@ export default function Bookings() {
         value={value}
       />
       </div>
+      
     </div>
   );
 }

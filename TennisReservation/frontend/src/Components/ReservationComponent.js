@@ -10,6 +10,7 @@ export default class ReservationComponent extends React.Component {
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.retrievePDF = this.retrievePDF.bind(this);
 
         this.state = {
             Day: "",
@@ -20,7 +21,9 @@ export default class ReservationComponent extends React.Component {
         };
     }
 
-   
+    retrievePDF(e) {
+        fetch("/VerificationEmail/");
+    }
     async handleSubmit(e) {
         e.preventDefault();
         var api = '/Run/' + this.state.Park + '/' + this.state.Day + '/' + this.state.StartTime + '/' + this.state.EndTime
@@ -132,6 +135,7 @@ export default class ReservationComponent extends React.Component {
 
                 </Form.Group>
                 <Button onClick={this.handleSubmit}>Submit</Button>
+                <Button onClick={this.retrievePDF}>Get Updated PDF list</Button>
                 </Card.Body>
                 
 

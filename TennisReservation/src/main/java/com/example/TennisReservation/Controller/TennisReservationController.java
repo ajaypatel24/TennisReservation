@@ -1,4 +1,4 @@
-package com.example.TennisReservation;
+package com.example.TennisReservation.Controller;
 
 import java.security.spec.KeySpec;
 import java.util.HashMap;
@@ -31,23 +31,14 @@ import java.util.Base64;
  * Reservation Controller
  */
 @RestController
-public class TennisReservationController {
+public class TennisReservationController extends AppController {
 
     
     @RequestMapping("/Run/{Park}/{Day}/{StartTime}/{EndTime}")
     public Map<String, String> execute(@PathVariable("Park") String park, @PathVariable("Day") String day,
             @PathVariable("StartTime") String timeStart, @PathVariable("EndTime") String timeEnd) {
 
-        String password = "";
-        try {
-            File f = new File("/Users/ajaypatel/Desktop/TennisReservation/TennisReservation/src/sen.txt");
-            Scanner read;
-            read = new Scanner(f);
-            password = this.decrypt(read.nextLine());
-            read.close();
-        } catch (FileNotFoundException e1) {
-            e1.printStackTrace();
-        }
+        String password = this.sendPass();
         
         System.setProperty("webdriver.chrome.driver", "/Users/ajaypatel/Desktop/TennisReservation/TennisReservation/src/chromedriver");
   
@@ -226,30 +217,6 @@ public class TennisReservationController {
         dateChoice.click();
     }
 
-    public String decrypt(String word) {
-        SecretKeyFactory skf;
-        try {
-            skf = SecretKeyFactory.getInstance("DESede");
-            String EncryptKey = "ThisIsSpartaThisIsSparta";
-            byte[] arrayBytes = EncryptKey.getBytes("UTF8");
-            KeySpec ks = new DESedeKeySpec(arrayBytes);
-            SecretKey key = skf.generateSecret(ks);
-            Cipher cipher = Cipher.getInstance("DESede");
-
-            cipher.init(Cipher.DECRYPT_MODE, key);
-            byte[] encryptedText = Base64.getDecoder().decode(word);
-            byte[] plainText = cipher.doFinal(encryptedText);
-            String decrypt = new String(plainText);
-            return decrypt;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return "";
-
-        
-
-    }
 
 
 }

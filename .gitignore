@@ -10,3 +10,4 @@
 *.ear
 /node_modules
 sen.txt
+*.pdf
