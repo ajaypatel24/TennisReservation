@@ -10,5 +10,4 @@
 *.ear
 /node_modules
 sen.txt
-/confirmation
 *.pdf
