@@ -97,7 +97,7 @@ public class EmailVerificationController extends AppController {
             store.connect(host, username, password);
 
             Folder folder = store.getFolder("INBOX");
-            folder.open(Folder.READ_ONLY);
+            folder.open(Folder.READ_WRITE);
 
             SearchTerm sender = new FromTerm(new InternetAddress("NePasRepondre@montreal.ca"));
             SearchTerm unread = new FlagTerm(new Flags(Flags.Flag.SEEN), false);
@@ -108,6 +108,7 @@ public class EmailVerificationController extends AppController {
             for (int i = 1; i < messages.length; i++) {
                 System.out.println(messages[i].getSubject());
                 getAttachment(messages[i]);
+                folder.setFlags(new Message[] {messages[i]}, new Flags(Flags.Flag.SEEN), true);
             }
 
             res.put("Status", "Downloaded PDF's");
