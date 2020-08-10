@@ -2,7 +2,6 @@ package com.example.TennisReservation.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import com.example.TennisReservation.Model.Reservation;
 import com.example.TennisReservation.Repository.ReservationRepository;
@@ -30,5 +29,12 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public Reservation getByReservationId(Long id) {
         return reservationrepository.findByReservationId(id);
+    }
+
+    @Override
+    public Reservation addReservation(Reservation reservation) {
+        reservationrepository.save(reservation);
+        return reservation;
+        
     }
 }
