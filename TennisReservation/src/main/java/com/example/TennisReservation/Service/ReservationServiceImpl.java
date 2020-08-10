@@ -1,10 +1,7 @@
 package com.example.TennisReservation.Service;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 import com.example.TennisReservation.Model.Reservation;
 import com.example.TennisReservation.Repository.ReservationRepository;
@@ -34,13 +31,10 @@ public class ReservationServiceImpl implements ReservationService {
         return reservationrepository.findByReservationId(id);
     }
 
-    @Override public Long addReservation(int Court, String ConfirmationPDF, LocalDate date) {
-        Reservation reservation = new Reservation();
-
-        reservation.setCourt(Court);
-        reservation.setConfirmationPDF(ConfirmationPDF);
-        reservation.setDate(date);
-
-        return reservationrepository.save(reservation).getReservationId();
+    @Override
+    public Reservation addReservation(Reservation reservation) {
+        reservationrepository.save(reservation);
+        return reservation;
+        
     }
 }

@@ -1,21 +1,16 @@
 package com.example.TennisReservation.Controller;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
-import java.util.Scanner;
 
-import javax.mail.BodyPart;
 import javax.mail.Flags;
 import javax.mail.Folder;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
-import javax.mail.Part;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Store;
@@ -23,14 +18,11 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
 import javax.mail.search.AndTerm;
 import javax.mail.search.FlagTerm;
 import javax.mail.search.FromTerm;
 import javax.mail.search.SearchTerm;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 

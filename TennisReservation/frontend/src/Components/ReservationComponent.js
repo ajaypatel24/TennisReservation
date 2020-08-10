@@ -39,12 +39,13 @@ export default class ReservationComponent extends React.Component {
 
         console.log(response);
         console.log(body);
+        console.log(JSON.stringify(body))
 
-        fetch('/NewReservation/', {
+        await fetch('/NewReservation/', {
             method: 'POST',
             body: JSON.stringify(body),
             headers: {
-                "Content-type": "application/json"
+                'Content-type': "application/json"
             }
         })
         .then(function (t) {

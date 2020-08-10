@@ -1,12 +1,12 @@
 package com.example.TennisReservation.Controller;
 
-import java.security.spec.KeySpec;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 
-import javax.crypto.Cipher;
+
+
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -18,14 +18,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.crypto.SecretKey;
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.DESedeKeySpec;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Base64;
 
 /**
  * Reservation Controller
@@ -152,23 +146,29 @@ public class TennisReservationController extends AppController {
 
         //reserve court
         List<String> DateCourtConfirmation = new ArrayList<>();
+        while (DateCourtConfirmation.size() == 0) {
+        
         DateCourtConfirmation = reserveFlow(driver, Court);
-
         //if reserved court violates back to back booking
         try {
+            
             RapidCheck.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(okButton)));
             driver.findElement(By.xpath(okButton)).click();
             wait.until(ExpectedConditions.elementToBeClickable(By.xpath(ContinueSearch)));
             driver.findElement(By.xpath(ContinueSearch)).click();
             driver.navigate().back();
-            count++;
-            Court = "//*[@id='searchResult']/div[2]/div/table/tbody/tr[" + count + "]/td[3]";
-            DateCourtConfirmation = reserveFlow(driver, Court);
+            DateCourtConfirmation.clear();
 
         }
         catch (Exception e) {
 
         }
+
+            count++;
+            Court = "//*[@id='searchResult']/div[2]/div/table/tbody/tr[" + count + "]/td[3]";
+            System.out.println(DateCourtConfirmation.size());
+
+        } 
 
         //Confirm booking
         waitThenClick(driver, ConfirmerPanier);
@@ -182,11 +182,11 @@ public class TennisReservationController extends AppController {
         waitThenClick(driver, ConditionOne);
         waitThenClick(driver, ConditionTwo);
 
-        //waitThenClick(driver, FinalConfirmation);
+        waitThenClick(driver, FinalConfirmation);
         driver.close();
-        res.put("Date", DateCourtConfirmation.get(0));
-        res.put("Court", DateCourtConfirmation.get(1));
-        res.put("ConfirmationPDF", "Nothing here Yet");
+        res.put("date", DateCourtConfirmation.get(0));
+        res.put("court", DateCourtConfirmation.get(1));
+        res.put("confirmationpdf", "Nothing here Yet");
         return res;
         
     }

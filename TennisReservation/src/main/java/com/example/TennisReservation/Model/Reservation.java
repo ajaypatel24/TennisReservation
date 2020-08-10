@@ -1,8 +1,5 @@
 package com.example.TennisReservation.Model;
 
-import java.time.LocalDate;
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -30,7 +27,7 @@ public class Reservation {
     
     private int court; 
 
-    private LocalDate date;
+    private String date;
 
     private String confirmationPDF;
 
@@ -44,7 +41,7 @@ public class Reservation {
         return court;
     }
 
-    public LocalDate getDate() {
+    public String getDate() {
         return date;
     }
 
@@ -61,7 +58,7 @@ public class Reservation {
         this.court = court;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

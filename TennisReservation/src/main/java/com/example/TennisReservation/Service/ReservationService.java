@@ -1,9 +1,6 @@
 package com.example.TennisReservation.Service;
 
-import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import com.example.TennisReservation.Model.Reservation;
 
@@ -16,7 +13,7 @@ public interface ReservationService {
 
     Reservation getByReservationId(Long id);
 
-    Long addReservation(int Court, String ConfirmationPDF, LocalDate date);
-	
+    Reservation addReservation(Reservation reservation);
+    
 		
 }
