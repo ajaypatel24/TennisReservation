@@ -35,12 +35,22 @@ export default class ReservationComponent extends React.Component {
         });
         console.log(api);
         const response = await fetch(api);
-
         const body = await response.json();
+
+        console.log(response);
         console.log(body);
-        for (var x in body) {
-            this.setState({ Categories: body[x], isLoading: false });
-        }
+
+        fetch('/NewReservation/', {
+            method: 'POST',
+            body: JSON.stringify(body),
+            headers: {
+                "Content-type": "application/json"
+            }
+        })
+        .then(function (t) {
+            console.log(t);
+        })
+       
     }
 
     handleChange(e) {
@@ -138,7 +148,7 @@ export default class ReservationComponent extends React.Component {
                 <Button onClick={this.retrievePDF}>Get Updated PDF list</Button>
                 </Card.Body>
                 
-
+                {this.state.Categories}
 
                 </Card>
                 </Col>
