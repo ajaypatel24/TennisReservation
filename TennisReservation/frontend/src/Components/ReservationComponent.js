@@ -21,7 +21,7 @@ export default class ReservationComponent extends React.Component {
         };
     }
 
-    retrievePDF(e) {
+    retrievePDF() {
         fetch("/VerificationEmail/");
     }
     async handleSubmit(e) {
@@ -51,8 +51,20 @@ export default class ReservationComponent extends React.Component {
         .then(function (t) {
             console.log(t);
         })
-       
+
+        await fetch("/LastId/" ,{
+            method: 'GET'
+        }).then(response => {
+            console.log(response.data);
+            this.setState({Categories: response.data});
+            console.log(this.state.Categories);
+
+        });
+
+
     }
+       
+    
 
     handleChange(e) {
         this.setState({
@@ -146,10 +158,9 @@ export default class ReservationComponent extends React.Component {
 
                 </Form.Group>
                 <Button onClick={this.handleSubmit}>Submit</Button>
-                <Button onClick={this.retrievePDF}>Get Updated PDF list</Button>
                 </Card.Body>
                 
-                {this.state.Categories}
+                <p>{this.state.Categories}</p>
 
                 </Card>
                 </Col>
