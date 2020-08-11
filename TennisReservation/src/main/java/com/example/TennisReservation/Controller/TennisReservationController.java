@@ -38,8 +38,6 @@ public class TennisReservationController extends AppController {
   
         WebDriver driver = new ChromeDriver();
         driver.get("https://loisirs.montreal.ca/IC3/#/U6510/search/?searchParam=%7B%22filter%22:%7B%22isCollapsed%22:false,%22value%22:%7B%22dates%22:%5B%222020-08-01T00:00:00.000-04:00%22%5D,%22boroughIds%22:%2217%22%7D%7D,%22search%22:%22tennis%22,%22sortable%22:%7B%22isOrderAsc%22:true,%22column%22:%22facility.name%22%7D%7D&bids=26,35,35");
-        
-        System.out.println(driver.getTitle());
 
         Map<String,String> res = new HashMap<>();
         WebDriverWait wait = new WebDriverWait(driver, 10);
@@ -51,6 +49,7 @@ public class TennisReservationController extends AppController {
         String ParkDropdown = "//*[@id='u6510_selectFacilityReservationSearchSite']";
 
         String SelectedPark = "";
+        String ParkName = "";
         String ParkMarcelLaurin = "//*[@id='u6510_selectFacilityReservationSearchSite']/option[20]";
         String ParkMarlBorough = "//*[@id='u6510_selectFacilityReservationSearchSite']/option[21]";
         String ParkNoelSud = "//*[@id='u6510_selectFacilityReservationSearchSite']/option[25]";
@@ -58,12 +57,15 @@ public class TennisReservationController extends AppController {
         switch(park) {
             case "Marcel":
                 SelectedPark = ParkMarcelLaurin;
+                ParkName = "Marcel-Laurin";
                 break;
             case "Marl":
                 SelectedPark = ParkMarlBorough;
+                ParkName = "Marlborough";
                 break;
             case "Noel":
                 SelectedPark = ParkNoelSud;
+                ParkName = "Noel-Sud";
                 break;
         }
         
@@ -93,7 +95,7 @@ public class TennisReservationController extends AppController {
         String ConditionOne = "//*[@id='u3600_chkElectronicPaymentCondition']";
         String ConditionTwo = "//*[@id='u3600_chkLocationCondition']";
         String FinalConfirmation = "//*[@id='u3600_btnCartPaymentCompleteStep']";
-
+        String pdfName = "//*[@id='wrapper']/section/div/main/ng-view/div/dl/dd[1]";
        
         String okButton = "/html/body/div[4]/div/div/div[3]/button";
         String ContinueSearch = "//*[@id='u3600_btnCartMemberContinue']";
@@ -163,11 +165,8 @@ public class TennisReservationController extends AppController {
         catch (Exception e) {
 
         }
-
             count++;
             Court = "//*[@id='searchResult']/div[2]/div/table/tbody/tr[" + count + "]/td[3]";
-            System.out.println(DateCourtConfirmation.size());
-
         } 
 
         //Confirm booking
@@ -183,10 +182,16 @@ public class TennisReservationController extends AppController {
         waitThenClick(driver, ConditionTwo);
 
         waitThenClick(driver, FinalConfirmation);
+
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(pdfName)));
+        String currenturl = driver.getCurrentUrl();
+        String pdf = currenturl.substring(currenturl.lastIndexOf('=') + 1);
         driver.close();
         res.put("date", DateCourtConfirmation.get(0));
         res.put("court", DateCourtConfirmation.get(1));
-        res.put("confirmationpdf", "Nothing here Yet");
+        res.put("time", DateCourtConfirmation.get(2));
+        res.put("park", ParkName);
+        res.put("confirmationpdf", pdf + ".pdf");
         return res;
         
     }
@@ -196,6 +201,7 @@ public class TennisReservationController extends AppController {
         String CourtInformation = "//*[@id='wrapper']/section/div/main/ng-view/div/ul/li[2]/span";
         String Reserver = "//*[@id='u6510_btnReserveSecond']";
         String User = "//*[@id='u3600_btnSelect0']";
+        String time="";
         List<String> res = new ArrayList<>();
         waitThenClick(driver, Court);
         modalLoad(driver);
@@ -205,8 +211,12 @@ public class TennisReservationController extends AppController {
         modalLoad(driver);
         waitThenClick(driver, User);
         modalLoad(driver);
-        res.add(info);
+        info = info.substring(info.indexOf(",")+1).trim();
+        time = info.substring(info.indexOf(",")+1).trim();
+        String result = info.substring(0, info.indexOf(","));
+        res.add(result);
         res.add(CourtNumber);
+        res.add(time);
         return res;
     }
     public static void modalLoad(WebDriver driver) {

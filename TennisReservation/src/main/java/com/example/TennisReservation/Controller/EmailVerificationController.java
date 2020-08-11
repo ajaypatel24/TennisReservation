@@ -123,7 +123,7 @@ public class EmailVerificationController extends AppController {
                 if (bodyPart.ATTACHMENT.equalsIgnoreCase(bodyPart.getDisposition())) {
                     String filename = bodyPart.getFileName();
                     AttachFile += filename + ", ";
-                    bodyPart.saveFile("/Users/ajaypatel/Desktop/TennisReservation/TennisReservation/src/confirmation"
+                    bodyPart.saveFile("/Users/ajaypatel/Desktop/TennisReservation/TennisReservation/frontend/public/confirmation"
                             + File.separator + filename);
                 } else {
                     MessageContent = bodyPart.getContent().toString();

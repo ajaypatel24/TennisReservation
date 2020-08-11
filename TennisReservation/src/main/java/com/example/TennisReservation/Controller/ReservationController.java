@@ -2,6 +2,7 @@ package com.example.TennisReservation.Controller;
 
 import java.text.ParseException;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -38,13 +39,11 @@ public class ReservationController {
     }
 
     @RequestMapping({ "/reservation/list", "/Reservation" })
-    public Map<Integer, String> listReservation(Model model) {
-        Map<Integer, String> res = new HashMap<>();
+    public Map<Long, String> listReservation(Model model) {
+        Map<Long, String> res = new HashMap<>();
         model.addAttribute("reservations", reservationService.listAll());
-        int count = 1;
         for (Reservation reservation : reservationService.listAll()) {
-            res.put(count, reservation.getConfirmationPDF());
-            count++;
+            res.put(reservation.getReservationId(), reservation.getConfirmationPDF());
         }
 
         return res;
@@ -64,6 +63,8 @@ public class ReservationController {
         reservation.setConfirmationPDF(body.get("confirmationpdf"));
         reservation.setCourt(Integer.parseInt(body.get("court")));
         reservation.setDate(body.get("date"));
+        reservation.setTime(body.get("time"));
+        reservation.setPark(body.get("park"));
 
         Reservation res = reservationService.addReservation(reservation);
         System.out.println(res.getReservationId() + " " + res.getCourt() + " " + res.getConfirmationPDF() + " " + res.getDate());
@@ -71,11 +72,21 @@ public class ReservationController {
 
     }
 
-
-    @RequestMapping("/LastId/")
-    public Long lastId() {
-        return reservationService.getLast();
+    @RequestMapping("/LastId/") //optimize
+    public Map<String,Long> lastId() {
+        Map<String, Long> res = new LinkedHashMap<>();
+        int count = 1;
+        Reservation last = new Reservation();
+        for (Reservation reservation : reservationService.listAll()) {
+            res.put("test" + count, reservation.getReservationId());
+            count++;
+            last = reservation;
+        }
+        Map<String, Long> a = new HashMap<>();
+        a.put("Id", last.getReservationId());
+        return a;
     }
+
     @RequestMapping("/File/{id}")
     public String recentFile(@PathVariable Long id) {
         Reservation edit = reservationService.getByReservationId(id);
