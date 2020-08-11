@@ -11,19 +11,17 @@ export default class ReservationComponent extends React.Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.retrievePDF = this.retrievePDF.bind(this);
+        this.refreshFiles = this.refreshFiles.bind(this);
 
         this.state = {
             Day: "",
             Park: "",
             StartTime: "",
             EndTime: "",
-            Categories: []
+            Categories: ""
         };
     }
 
-    retrievePDF() {
-        fetch("/VerificationEmail/");
-    }
     async handleSubmit(e) {
         e.preventDefault();
         var api = '/Run/' + this.state.Park + '/' + this.state.Day + '/' + this.state.StartTime + '/' + this.state.EndTime
@@ -52,16 +50,16 @@ export default class ReservationComponent extends React.Component {
             console.log(t);
         })
 
-        await fetch("/LastId/" ,{
-            method: 'GET'
-        }).then(response => {
-            console.log(response.data);
-            this.setState({Categories: response.data});
-            console.log(this.state.Categories);
 
-        });
+    }
 
+    refreshFiles(e) {
+        fetch("/VerificationEmail/")
+            .then(response => response.json())
+            .then(data => console.log(data))
+        
 
+        
     }
        
     
@@ -150,14 +148,9 @@ export default class ReservationComponent extends React.Component {
                         </Col>
                     </Row>
 
-                    
-                    
-                    
-
-                    
-
                 </Form.Group>
                 <Button onClick={this.handleSubmit}>Submit</Button>
+                <Button onClick={this.refreshFiles}>Submit</Button>
                 </Card.Body>
                 
                 <p>{this.state.Categories}</p>
