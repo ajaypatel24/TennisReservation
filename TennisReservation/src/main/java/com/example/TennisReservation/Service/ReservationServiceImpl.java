@@ -2,12 +2,15 @@ package com.example.TennisReservation.Service;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.example.TennisReservation.Model.Reservation;
 import com.example.TennisReservation.Repository.ReservationRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -27,12 +30,22 @@ public class ReservationServiceImpl implements ReservationService {
         return res;
     }
 
+    /*
     @Override
-    public Long getLast() {
+    public Map<String,Long> getLast() { //optimize
         List<Reservation> res = new ArrayList<>();
         reservationrepository.findAll().forEach(res::add);
-        return res.get(res.size()-1).getReservationId();
+        Map<String,Long> response = new HashMap<>();
+        long max = -1;
+        for (Reservation r : res) {
+            if (r.getReservationId() > max) {
+                max = r.getReservationId();
+            }
+        }
+        response.put("Id", max);
+        return response;
     }
+    */
 
     @Override
     public Reservation getByReservationId(Long id) {
@@ -48,7 +61,7 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public String getNewestFile() {
-        File directory = new File("/Users/ajaypatel/Desktop/TennisReservation/TennisReservation/src/confirmation");
+        File directory = new File("/Users/ajaypatel/Desktop/TennisReservation/TennisReservation/frontend/public/confirmation");
         File[] files = directory.listFiles(File::isFile);
         long lastModifiedTime = Long.MIN_VALUE;
         File chosenFile = null;

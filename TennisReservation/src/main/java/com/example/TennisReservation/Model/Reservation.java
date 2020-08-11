@@ -24,6 +24,8 @@ public class Reservation {
     @GeneratedValue(strategy=GenerationType.IDENTITY) 
     @Column(columnDefinition="serial")
     private Long reservationId;
+
+    private String park;
     
     private int court; 
 
@@ -31,12 +33,18 @@ public class Reservation {
 
     private String confirmationPDF;
 
+    private String time;
+
+
 
     //getters to show in query
     public Long getReservationId() {
         return reservationId;
     }
 
+    public String getPark() {
+        return park;
+    }
     public int getCourt() {
         return court;
     }
@@ -49,7 +57,14 @@ public class Reservation {
         return confirmationPDF;
     }
 
+    public String getTime() {
+        return time;
+    }
+
     //setters
+    public void setPark(String park) {
+        this.park = park;
+    }
     public void setConfirmationPDF(String confirmationPDF) {
         this.confirmationPDF = confirmationPDF;
     }
@@ -60,6 +75,10 @@ public class Reservation {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 
 

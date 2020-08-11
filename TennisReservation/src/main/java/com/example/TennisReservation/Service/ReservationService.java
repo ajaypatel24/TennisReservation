@@ -1,17 +1,23 @@
 package com.example.TennisReservation.Service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.example.TennisReservation.Model.Reservation;
 
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 
 @Service
 public interface ReservationService {
+    
     List<Reservation> listAll();
 
-    Long getLast();
+    /*
+    @Query(value = "select * from reservation order by reservation_id LIMIT 1")
+    Map<String, Long> getLast();
+    */
     
     Reservation getByReservationId(Long id);
 
