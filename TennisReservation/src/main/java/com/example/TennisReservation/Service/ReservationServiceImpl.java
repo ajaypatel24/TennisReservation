@@ -1,5 +1,6 @@
 package com.example.TennisReservation.Service;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +28,13 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
+    public Long getLast() {
+        List<Reservation> res = new ArrayList<>();
+        reservationrepository.findAll().forEach(res::add);
+        return res.get(res.size()-1).getReservationId();
+    }
+
+    @Override
     public Reservation getByReservationId(Long id) {
         return reservationrepository.findByReservationId(id);
     }
@@ -37,4 +45,23 @@ public class ReservationServiceImpl implements ReservationService {
         return reservation;
         
     }
+
+    @Override
+    public String getNewestFile() {
+        File directory = new File("/Users/ajaypatel/Desktop/TennisReservation/TennisReservation/src/confirmation");
+        File[] files = directory.listFiles(File::isFile);
+        long lastModifiedTime = Long.MIN_VALUE;
+        File chosenFile = null;
+
+        if (files != null) {
+            for (File file : files) {
+                if (file.lastModified() > lastModifiedTime) {
+                    chosenFile = file;
+                    lastModifiedTime = file.lastModified();
+                }
+            }
+        }
+        return chosenFile.getName();
+    }
+    
 }

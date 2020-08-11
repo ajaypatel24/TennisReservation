@@ -11,9 +11,12 @@ import org.springframework.stereotype.Service;
 public interface ReservationService {
     List<Reservation> listAll();
 
+    Long getLast();
+    
     Reservation getByReservationId(Long id);
 
     Reservation addReservation(Reservation reservation);
     
+    String getNewestFile();
 		
 }
