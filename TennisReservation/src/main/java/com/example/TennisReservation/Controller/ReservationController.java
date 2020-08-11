@@ -56,6 +56,7 @@ public class ReservationController {
         return reservationService.getByReservationId(id);
     }
 
+
     @PostMapping("/NewReservation/")
     @ResponseStatus(HttpStatus.CREATED)
     public void addReservation(Reservation reservation, @RequestBody Map<String, String> body,
@@ -66,11 +67,21 @@ public class ReservationController {
 
         Reservation res = reservationService.addReservation(reservation);
         System.out.println(res.getReservationId() + " " + res.getCourt() + " " + res.getConfirmationPDF() + " " + res.getDate());
-        response.setHeader("Location", (request.getRequestURL().append("/").append(res.getReservationId())).toString()    );
+        response.setHeader("Location", (request.getRequestURL().append("/").append(res.getReservationId())).toString());
 
-        
+    }
 
 
+    @RequestMapping("/LastId/")
+    public Long lastId() {
+        return reservationService.getLast();
+    }
+    @RequestMapping("/File/{id}")
+    public String recentFile(@PathVariable Long id) {
+        Reservation edit = reservationService.getByReservationId(id);
+        edit.setConfirmationPDF(reservationService.getNewestFile());
+        Reservation res = reservationService.addReservation(edit);
+        return reservationService.getNewestFile();
     }
 
 
