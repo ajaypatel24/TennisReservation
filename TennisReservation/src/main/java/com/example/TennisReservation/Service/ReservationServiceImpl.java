@@ -2,15 +2,12 @@ package com.example.TennisReservation.Service;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.example.TennisReservation.Model.Reservation;
 import com.example.TennisReservation.Repository.ReservationRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -29,23 +26,6 @@ public class ReservationServiceImpl implements ReservationService {
         reservationrepository.findAll().forEach(res::add);
         return res;
     }
-
-    /*
-    @Override
-    public Map<String,Long> getLast() { //optimize
-        List<Reservation> res = new ArrayList<>();
-        reservationrepository.findAll().forEach(res::add);
-        Map<String,Long> response = new HashMap<>();
-        long max = -1;
-        for (Reservation r : res) {
-            if (r.getReservationId() > max) {
-                max = r.getReservationId();
-            }
-        }
-        response.put("Id", max);
-        return response;
-    }
-    */
 
     @Override
     public Reservation getByReservationId(Long id) {
