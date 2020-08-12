@@ -47,18 +47,6 @@ public class ReservationController {
     @RequestMapping({ "/reservation/list", "/Reservation" })
     public Map<Long, List<String>> listReservation(Model model) {
         Map<Long, List<String>> res = new HashMap<>();
-        String string = "15 AoÛT 2020";
-        DateFormat format = new SimpleDateFormat("dd MMMM yyyy", Locale.FRENCH);
-        DateFormat targetFormat = new SimpleDateFormat("yyyy/MM/dd");
-        Date date = null;
-        try {
-            date = format.parse(string);
-        } catch (ParseException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        System.out.println(targetFormat.format(date));
-        
         model.addAttribute("reservations", reservationService.listAll());
         for (Reservation reservation : reservationService.listAll()) {
 
@@ -82,6 +70,12 @@ public class ReservationController {
     public Reservation getReservation(@PathVariable Long id) {
         System.out.println("invoked");
         return reservationService.getByReservationId(id);
+    }
+
+    @RequestMapping("/ReservationDate/{date}")
+    public List<Reservation> getRes(@PathVariable String date) {
+        System.out.println("invoked");
+        return reservationService.getReservationByDate(date);
     }
 
 
@@ -124,6 +118,24 @@ public class ReservationController {
         edit.setConfirmationPDF(reservationService.getNewestFile());
         Reservation res = reservationService.addReservation(edit);
         return reservationService.getNewestFile();
+    }
+
+
+    @RequestMapping("/Changedate/{date}")
+    public Map<String,String> convertDate(@PathVariable Date date) throws ParseException {
+        System.out.println(date);
+        DateFormat format = new SimpleDateFormat("EEE MMM dd hh:kk:hh zzz yyyy", Locale.ENGLISH);
+        DateFormat targetFormat = new SimpleDateFormat("yyyy-MM-dd");
+        date = format.parse(date.toString());
+       String res = targetFormat.format(date);
+       System.out.println(res);
+       
+        return new HashMap<String,String>(){
+            private static final long serialVersionUID = 1L;
+            {
+                put("newDate", res);
+            }
+        };
     }
 
 

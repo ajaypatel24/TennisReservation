@@ -189,7 +189,7 @@ public class TennisReservationController extends AppController {
         driver.close();
         String string = DateCourtConfirmation.get(0);
         DateFormat format = new SimpleDateFormat("dd MMMM yyyy", Locale.FRENCH);
-        DateFormat targetFormat = new SimpleDateFormat("yyyy/MM/dd");
+        DateFormat targetFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date date = null;
         try {
             date = format.parse(string);

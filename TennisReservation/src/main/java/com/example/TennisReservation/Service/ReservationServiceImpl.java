@@ -53,6 +53,11 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
+    public List<Reservation> getReservationByDate(String date) {
+        return reservationrepository.findByDateEqualTo(date);
+    }
+
+    @Override
     public Reservation addReservation(Reservation reservation) {
         reservationrepository.save(reservation);
         return reservation;

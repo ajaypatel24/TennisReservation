@@ -24,5 +24,6 @@ public interface ReservationService {
     Reservation addReservation(Reservation reservation);
     
     String getNewestFile();
-		
+        
+    List<Reservation> getReservationByDate(String date);
 }
