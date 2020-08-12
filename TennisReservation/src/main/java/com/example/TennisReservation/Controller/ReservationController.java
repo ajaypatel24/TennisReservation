@@ -1,8 +1,16 @@
 package com.example.TennisReservation.Controller;
 
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAccessor;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,8 +30,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-
-
 @RestController
 public class ReservationController {
 
@@ -39,11 +45,22 @@ public class ReservationController {
     }
 
     @RequestMapping({ "/reservation/list", "/Reservation" })
-    public Map<Long, String> listReservation(Model model) {
-        Map<Long, String> res = new HashMap<>();
+    public Map<Long, List<String>> listReservation(Model model) {
+        Map<Long, List<String>> res = new HashMap<>();
         model.addAttribute("reservations", reservationService.listAll());
         for (Reservation reservation : reservationService.listAll()) {
-            res.put(reservation.getReservationId(), reservation.getConfirmationPDF());
+
+            res.put(reservation.getReservationId(), new ArrayList<String>() {
+
+                private static final long serialVersionUID = 1L;
+
+                {
+                add(reservation.getConfirmationPDF());
+                add(reservation.getDate());
+                add(reservation.getTime());
+                add(Integer.toString(reservation.getCourt()));
+                add(reservation.getPark()); 
+                }});
         }
 
         return res;
@@ -53,6 +70,12 @@ public class ReservationController {
     public Reservation getReservation(@PathVariable Long id) {
         System.out.println("invoked");
         return reservationService.getByReservationId(id);
+    }
+
+    @RequestMapping("/ReservationDate/{date}")
+    public List<Reservation> getRes(@PathVariable String date) {
+        System.out.println("invoked");
+        return reservationService.getReservationByDate(date);
     }
 
 
@@ -72,7 +95,8 @@ public class ReservationController {
 
     }
 
-    @RequestMapping("/LastId/") //optimize
+    /*
+    @RequestMapping("/LastId/") //not working
     public Map<String,Long> lastId() {
         Map<String, Long> res = new LinkedHashMap<>();
         int count = 1;
@@ -86,6 +110,7 @@ public class ReservationController {
         a.put("Id", last.getReservationId());
         return a;
     }
+    */
 
     @RequestMapping("/File/{id}")
     public String recentFile(@PathVariable Long id) {
@@ -93,6 +118,24 @@ public class ReservationController {
         edit.setConfirmationPDF(reservationService.getNewestFile());
         Reservation res = reservationService.addReservation(edit);
         return reservationService.getNewestFile();
+    }
+
+
+    @RequestMapping("/Changedate/{date}")
+    public Map<String,String> convertDate(@PathVariable Date date) throws ParseException {
+        System.out.println(date);
+        DateFormat format = new SimpleDateFormat("EEE MMM dd hh:kk:hh zzz yyyy", Locale.ENGLISH);
+        DateFormat targetFormat = new SimpleDateFormat("yyyy-MM-dd");
+        date = format.parse(date.toString());
+       String res = targetFormat.format(date);
+       System.out.println(res);
+       
+        return new HashMap<String,String>(){
+            private static final long serialVersionUID = 1L;
+            {
+                put("newDate", res);
+            }
+        };
     }
 
 

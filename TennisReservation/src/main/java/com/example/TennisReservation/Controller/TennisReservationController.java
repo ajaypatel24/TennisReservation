@@ -1,12 +1,9 @@
 package com.example.TennisReservation.Controller;
 
-
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
-
-
-
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -18,8 +15,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Reservation Controller
@@ -187,7 +187,17 @@ public class TennisReservationController extends AppController {
         String currenturl = driver.getCurrentUrl();
         String pdf = currenturl.substring(currenturl.lastIndexOf('=') + 1);
         driver.close();
-        res.put("date", DateCourtConfirmation.get(0));
+        String string = DateCourtConfirmation.get(0);
+        DateFormat format = new SimpleDateFormat("dd MMMM yyyy", Locale.FRENCH);
+        DateFormat targetFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = null;
+        try {
+            date = format.parse(string);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        
+        res.put("date", targetFormat.format(date));
         res.put("court", DateCourtConfirmation.get(1));
         res.put("time", DateCourtConfirmation.get(2));
         res.put("park", ParkName);
