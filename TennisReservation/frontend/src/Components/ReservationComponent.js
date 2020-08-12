@@ -1,7 +1,7 @@
 import React from 'react'
 import { Form, Col, Row, Card, Button, Jumbotron, Nav } from 'react-bootstrap'
 import './styles.css'
-
+import './Bookings.css'
 
 export default class ReservationComponent extends React.Component {
     constructor(props) {
@@ -10,7 +10,6 @@ export default class ReservationComponent extends React.Component {
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.retrievePDF = this.retrievePDF.bind(this);
         this.refreshFiles = this.refreshFiles.bind(this);
 
         this.state = {
@@ -73,13 +72,12 @@ export default class ReservationComponent extends React.Component {
 
     render() {
         return (
-            <div>
-                <Row>
-                    <Col lg="4">
+            <div id="ContainerReserve">
+                
                 <Card id="Card">
-                    <Card.Header>Reserve</Card.Header>
+                    <Card.Header id="CardHeader">Reserve</Card.Header>
                     <Card.Body>
-                <Form.Group id="ReserveForm">
+                    <Form.Group id="ReserveForm">
 
                     <Row>
                         <Col lg="12">
@@ -147,18 +145,17 @@ export default class ReservationComponent extends React.Component {
 
                         </Col>
                     </Row>
-
-                </Form.Group>
-                <Button onClick={this.handleSubmit}>Submit</Button>
-                <Button onClick={this.refreshFiles}>Submit</Button>
-                </Card.Body>
+                    <br/>
+                    <Button onClick={this.handleSubmit}>Submit</Button>
+                    </Form.Group>
                 
-                <p>{this.state.Categories}</p>
+                    </Card.Body>
+                
+                    <p>{this.state.Categories}</p>
 
                 </Card>
-                </Col>
-                </Row>
-                </div>
+                
+            </div>
             
         );
     };

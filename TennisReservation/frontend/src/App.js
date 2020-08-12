@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {HashRouter, Route, Switch, Redirect} from 'react-router-dom'
-import {Nav} from 'react-bootstrap'
+import {Nav, Navbar} from 'react-bootstrap'
 import logo from './logo.svg';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -22,9 +22,19 @@ class App extends Component {
       return(<div>Loading...</div>);
 */
     return (
-      <div>
-        <h2> Tennis Reservation Automation </h2>
-        <Nav defaultActiveKey="/home" as="ul">
+      <div id="Container">
+            <Navbar bg="dark" variant="dark">
+              <Navbar.Brand>
+                <img
+                alt=""
+                src="/tennisball.png"
+                width="30"
+                length="30"
+                className="d-inline-block align-top"
+                />{' '}
+                Tennis Reservation Automation
+                </Navbar.Brand>
+                <Nav defaultActiveKey="/home" as="ul">
                     <Nav.Item as="li">
                         <Nav.Link href="/">Home</Nav.Link>
                     </Nav.Item>
@@ -35,6 +45,7 @@ class App extends Component {
                         <Nav.Link href="#/Booking">Bookings</Nav.Link>
                     </Nav.Item>
                 </Nav>
+                </Navbar>
 
             <div>
                 <HashRouter>
@@ -48,7 +59,9 @@ class App extends Component {
             </div>
          
         
-
+              <footer>
+                app
+              </footer>
 
       </div>
     )

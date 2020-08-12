@@ -1,8 +1,16 @@
 package com.example.TennisReservation.Controller;
 
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAccessor;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,8 +30,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-
-
 @RestController
 public class ReservationController {
 
@@ -39,11 +45,34 @@ public class ReservationController {
     }
 
     @RequestMapping({ "/reservation/list", "/Reservation" })
-    public Map<Long, String> listReservation(Model model) {
-        Map<Long, String> res = new HashMap<>();
+    public Map<Long, List<String>> listReservation(Model model) {
+        Map<Long, List<String>> res = new HashMap<>();
+        String string = "15 AoÛT 2020";
+        DateFormat format = new SimpleDateFormat("dd MMMM yyyy", Locale.FRENCH);
+        DateFormat targetFormat = new SimpleDateFormat("yyyy/MM/dd");
+        Date date = null;
+        try {
+            date = format.parse(string);
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        System.out.println(targetFormat.format(date));
+        
         model.addAttribute("reservations", reservationService.listAll());
         for (Reservation reservation : reservationService.listAll()) {
-            res.put(reservation.getReservationId(), reservation.getConfirmationPDF());
+
+            res.put(reservation.getReservationId(), new ArrayList<String>() {
+
+                private static final long serialVersionUID = 1L;
+
+                {
+                add(reservation.getConfirmationPDF());
+                add(reservation.getDate());
+                add(reservation.getTime());
+                add(Integer.toString(reservation.getCourt()));
+                add(reservation.getPark()); 
+                }});
         }
 
         return res;
@@ -72,7 +101,8 @@ public class ReservationController {
 
     }
 
-    @RequestMapping("/LastId/") //optimize
+    /*
+    @RequestMapping("/LastId/") //not working
     public Map<String,Long> lastId() {
         Map<String, Long> res = new LinkedHashMap<>();
         int count = 1;
@@ -86,6 +116,7 @@ public class ReservationController {
         a.put("Id", last.getReservationId());
         return a;
     }
+    */
 
     @RequestMapping("/File/{id}")
     public String recentFile(@PathVariable Long id) {
