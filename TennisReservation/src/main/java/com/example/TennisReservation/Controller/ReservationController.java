@@ -74,8 +74,13 @@ public class ReservationController {
 
     @RequestMapping("/ReservationDate/{date}")
     public List<Reservation> getRes(@PathVariable String date) {
-        System.out.println("invoked");
         return reservationService.getReservationByDate(date);
+    }
+
+    @RequestMapping("ReservationRange/{date1}/{date2}")
+    public List<Reservation> getResRange(@PathVariable String date1, @PathVariable String date2) {
+        return reservationService.getReservationByDateRange(date1, date2);
+
     }
 
 
@@ -94,23 +99,6 @@ public class ReservationController {
         response.setHeader("Location", (request.getRequestURL().append("/").append(res.getReservationId())).toString());
 
     }
-
-    /*
-    @RequestMapping("/LastId/") //not working
-    public Map<String,Long> lastId() {
-        Map<String, Long> res = new LinkedHashMap<>();
-        int count = 1;
-        Reservation last = new Reservation();
-        for (Reservation reservation : reservationService.listAll()) {
-            res.put("test" + count, reservation.getReservationId());
-            count++;
-            last = reservation;
-        }
-        Map<String, Long> a = new HashMap<>();
-        a.put("Id", last.getReservationId());
-        return a;
-    }
-    */
 
     @RequestMapping("/File/{id}")
     public String recentFile(@PathVariable Long id) {
