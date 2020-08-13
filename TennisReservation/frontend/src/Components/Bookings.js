@@ -4,6 +4,7 @@ import DatePicker from 'react-datepicker'
 import "react-datepicker/dist/react-datepicker.css"
 import './Bookings.css'
 import MaterialTable from 'material-table'
+import { Redirect } from 'react-router-dom';
 
 export default class Bookings extends React.Component{
   constructor(props) {
@@ -99,6 +100,10 @@ handleOptionChange(e) {
   })
 }
 
+handleRowClick = (event, rowData) => {
+  var link = this.state.url + rowData.confirmationPDF;
+  window.open(link)
+}
 async getRange() {
   await this.setState ({switch: 1})
   await fetch("/Changedate/" + this.state.range1)
@@ -182,10 +187,10 @@ async getRange() {
             onSelect={(date) => this.changer(date,"range2")}
             dateFormat="yyyy/MM/dd"
           />
-          <button onClick={this.getRange}> Range </button>
+          <button onClick={this.getRange}> Get Reservations </button>
           </div>
 
-  }
+        }
 
         <MaterialTable
           columns={[
@@ -196,34 +201,10 @@ async getRange() {
             { title: 'Park', field: 'park' }
           ]}
           data = {this.state.TableData}
-          title="Demo"
+          title="Reservations"
+          onRowClick={this.handleRowClick}
           />
 
-
-          <table id = "reservations">
-            <tbody>
-
-            <tr>
-              <th>Reservation File</th>
-              <th>Reservation Date</th>
-              <th>Reservation Time</th>
-              <th>Court Number</th>
-              <th>Park</th>
-            </tr>
-
-          {Object.keys(this.state.TableData).map((keyName) => (
-
-            <tr>
-              <td><a href={this.state.url + this.state.TableData[keyName].confirmationPDF} download> {this.state.TableData[keyName].confirmationPDF} </a></td>
-              <td><p> {this.state.TableData[keyName].date} </p></td>    
-              <td><p> {this.state.TableData[keyName].time} </p></td>
-              <td><p> {this.state.TableData[keyName].court} </p></td>
-              <td><p> {this.state.TableData[keyName].park} </p></td>
-            </tr>
-            
-          ))}
-          </tbody>
-          </table>
           </Col>
         </div>
       );
