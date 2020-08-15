@@ -107,8 +107,15 @@ public class TennisReservationController extends AppController {
         //gets list of all parts of calendar that match, in the case of two that match, create List and choose last occurence
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(specificdate)));
         List<WebElement> dateChoice = driver.findElements(By.xpath(specificdate)); 
-        //dateChoice.get(dateChoice.size()-1).click();
-        dateChoice.get(0).click();
+
+        System.out.println("0:" + dateChoice.get(0).getText());
+        System.out.println("1:" + dateChoice.get(dateChoice.size()-1).getText());
+        if (Integer.parseInt(dateChoice.get(0).getText()) >= 26) {
+            dateChoice.get(dateChoice.size()-1).click();
+        }
+        else { 
+            dateChoice.get(0).click();
+        }
 
         modalLoad(driver);
         

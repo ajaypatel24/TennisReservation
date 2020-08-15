@@ -25,5 +25,9 @@ public interface ReservationService {
     
     String getNewestFile();
         
+    long getReservationCountByDate(String date);
+
     List<Reservation> getReservationByDate(String date);
+
+    List<Reservation> getReservationByDateRange(String date1, String date2);
 }

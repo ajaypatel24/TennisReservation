@@ -1,17 +1,16 @@
 import React, { Component } from 'react';
-import {HashRouter, Route, Switch, Redirect} from 'react-router-dom'
+import {HashRouter, Route, Switch} from 'react-router-dom'
 import {Nav, Navbar} from 'react-bootstrap'
-import logo from './logo.svg';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import ReservationComponent from './Components/ReservationComponent';
-import Bookings from './Components/Bookings'
+import ReservationComponent from './Components/ReservationComponent/ReservationComponent';
+import Bookings from './Components/BookingComponent/Bookings'
+import HomePage from './Components/HomePageComponent/HomePage'
 
 
 class App extends Component {
   state = {
-    isLoading: true,
-    Categories : "Dysyi"
+    isLoading: true
   }
 
 
@@ -23,20 +22,20 @@ class App extends Component {
 */
     return (
       <div id="Container">
-            <Navbar bg="dark" variant="dark">
-              <Navbar.Brand>
+            <Navbar className="NavBar" bg="light" variant="light">
+              <Navbar.Brand style={{fontSize: '2rem'}}>
                 <img
                 alt=""
                 src="/tennisball.png"
-                width="30"
-                length="30"
+                width="45"
+                length="45"
                 className="d-inline-block align-top"
                 />{' '}
                 Tennis Reservation Automation
                 </Navbar.Brand>
-                <Nav defaultActiveKey="/home" as="ul">
+                <Nav defaultActiveKey="/" as="ul">
                     <Nav.Item as="li">
-                        <Nav.Link href="/">Home</Nav.Link>
+                        <Nav.Link href="#/">Home</Nav.Link>
                     </Nav.Item>
                     <Nav.Item as="li">
                         <Nav.Link href="#/Reserve">Reserve</Nav.Link>
@@ -52,6 +51,7 @@ class App extends Component {
                     <Switch>
                       <Route exact path="/Reserve" component={ReservationComponent} />
                       <Route exact path="/Booking" component={Bookings} />
+                      <Route exact path="/" component={HomePage} />
                     </Switch>
                     
 
