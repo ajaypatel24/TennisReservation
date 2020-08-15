@@ -1,9 +1,9 @@
 import React from 'react'
 import { Row, Col } from 'react-bootstrap'
-import CardComponent from './CardComponent'
-import CardTableComponent from './CardTableComponent'
-import CardComponentBase from './CardComponentBase'
-import './CardComponent.css'
+import CardComponent from '../CardComponent/Count/CardCountComponent'
+import CardTableComponent from '../CardComponent/Table/CardTableComponent'
+import CardComponentBase from '../CardComponent/Base/CardComponentBase'
+
 
 
 export default class HomePage extends React.Component {

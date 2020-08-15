@@ -1,6 +1,6 @@
 import React from 'react'
 import { Card } from 'react-bootstrap'
-import './CardComponent.css'
+import './CardCountComponent.css'
 import moment from 'moment'
 
 export default class HomePage extends React.Component {

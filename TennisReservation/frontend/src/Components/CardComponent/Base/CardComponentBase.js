@@ -1,6 +1,6 @@
 import React from 'react'
 import { Card } from 'react-bootstrap'
-import './CardComponent.css'
+import '../Count/CardCountComponent.css'
 
 
 export default class HomePage extends React.Component {

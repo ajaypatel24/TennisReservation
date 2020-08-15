@@ -1,7 +1,7 @@
 import React from 'react'
 import { Form, Col, Row, Card, Button } from 'react-bootstrap'
 import './styles.css'
-import './Bookings.css'
+import '../BookingComponent/Bookings.css'
 
 export default class ReservationComponent extends React.Component {
     constructor(props) {

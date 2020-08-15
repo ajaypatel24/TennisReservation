@@ -3,9 +3,9 @@ import {HashRouter, Route, Switch} from 'react-router-dom'
 import {Nav, Navbar} from 'react-bootstrap'
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import ReservationComponent from './Components/ReservationComponent';
-import Bookings from './Components/Bookings'
-import HomePage from './Components/HomePage'
+import ReservationComponent from './Components/ReservationComponent/ReservationComponent';
+import Bookings from './Components/BookingComponent/Bookings'
+import HomePage from './Components/HomePageComponent/HomePage'
 
 
 class App extends Component {
