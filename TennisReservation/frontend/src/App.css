@@ -45,3 +45,12 @@ left:0;
 bottom:0;
 right:0;
 }
+
+.NavBar {
+  margin-bottom: 1rem;
+  font-size:1.5em;
+}
+
+.NavBrand {
+  font-size:2rem;
+}

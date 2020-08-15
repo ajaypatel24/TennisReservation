@@ -17,6 +17,8 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     @Query(value = "SELECT * FROM reservation WHERE date = ?1 ORDER BY time", nativeQuery = true)
     List<Reservation> findByDateEqualTo(String date);
 
+    long countBydate(String date);
+
     @Query(value = "SELECT * FROM reservation WHERE (date > ?1 OR date = ?1) AND (date < ?2 OR date = ?2) ORDER BY date", nativeQuery = true)
     List<Reservation> findByDateRange(String date1, String date2);
 

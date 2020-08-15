@@ -77,6 +77,18 @@ public class ReservationController {
         return reservationService.getReservationByDate(date);
     }
 
+    @RequestMapping("/ReservationDateCount/{date}")
+    public Map<String, Long> getReservationCountDate(@PathVariable String date) {
+        long count = reservationService.getReservationCountByDate(date);
+        return new HashMap<String, Long>(){
+            private static final long serialVersionUID = 1L;
+            {
+                put("count", count);
+            }
+        };
+    }
+
+
     @RequestMapping("ReservationRange/{date1}/{date2}")
     public List<Reservation> getResRange(@PathVariable String date1, @PathVariable String date2) {
         return reservationService.getReservationByDateRange(date1, date2);

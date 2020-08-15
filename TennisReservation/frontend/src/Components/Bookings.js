@@ -1,10 +1,9 @@
-import React, { useState, Component } from 'react';
-import {Col ,Row, Tab} from 'react-bootstrap'
+import React from 'react';
+import {Col} from 'react-bootstrap'
 import DatePicker from 'react-datepicker'
 import "react-datepicker/dist/react-datepicker.css"
 import './Bookings.css'
 import MaterialTable from 'material-table'
-import { Redirect } from 'react-router-dom';
 
 export default class Bookings extends React.Component{
   constructor(props) {
@@ -36,10 +35,6 @@ componentDidMount() {
   fetch("/VerificationEmail/")
   .then(response => response.json())
   //.then(data => console.log(data))
-  
-  fetch("/ReservationDate/2020-08-16")
-  .then(response => response.json())
-  .then(data => this.setState({TableData: data}))
 }
 
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, Col, Row, Card, Button, Jumbotron, Nav } from 'react-bootstrap'
+import { Form, Col, Row, Card, Button } from 'react-bootstrap'
 import './styles.css'
 import './Bookings.css'
 

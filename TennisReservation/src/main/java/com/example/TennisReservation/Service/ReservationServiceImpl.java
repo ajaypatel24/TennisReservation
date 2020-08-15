@@ -38,6 +38,11 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
+    public long getReservationCountByDate(String date) {
+        return reservationrepository.countBydate(date);
+    }
+
+    @Override
     public List<Reservation> getReservationByDateRange(String date1, String date2) {
         return reservationrepository.findByDateRange(date1, date2);
     }
