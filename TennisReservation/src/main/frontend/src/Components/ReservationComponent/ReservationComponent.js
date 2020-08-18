@@ -35,7 +35,7 @@ export default class ReservationComponent extends React.Component {
         var Year = res[0];
         var Month = res[1];
         var choice = "";
-        switch(Month) {
+        switch (Month) {
             case '01':
                 choice = 'janvier';
                 break;
@@ -75,7 +75,7 @@ export default class ReservationComponent extends React.Component {
 
         }
 
-        var api = '/Run/' + this.state.Park + '/' + Day + '/' + choice +'/'+ this.state.StartTime + '/' + this.state.EndTime
+        var api = '/Run/' + this.state.Park + '/' + Day + '/' + choice + '/' + this.state.StartTime + '/' + this.state.EndTime
         this.setState({
             Day: "",
             Park: "",
@@ -89,7 +89,7 @@ export default class ReservationComponent extends React.Component {
         const body = await response.json();
 
         console.log(body)
-        this.setState({SubResponse: body})
+        this.setState({ SubResponse: body })
 
         await fetch('/NewReservation/', {
             method: 'POST',
@@ -98,9 +98,9 @@ export default class ReservationComponent extends React.Component {
                 'Content-type': "application/json"
             }
         })
-        .then(function (t) {
-            console.log(t);
-        })
+            .then(function (t) {
+                console.log(t);
+            })
 
 
     }
@@ -109,12 +109,12 @@ export default class ReservationComponent extends React.Component {
         fetch("/VerificationEmail/")
             .then(response => response.json())
             .then(data => console.log(data))
-        
 
-        
+
+
     }
-       
-    
+
+
 
     handleChange(e) {
         this.setState({
@@ -123,54 +123,56 @@ export default class ReservationComponent extends React.Component {
     }
 
     async handleDateChange(date) {
-            await this.setState({
-              t: date
-            });
+        await this.setState({
+            t: date
+        });
 
-            console.log(this.state.t)
+        console.log(this.state.t)
 
-            
-            await fetch("/Changedate/" + this.state.t)
+
+        await fetch("/Changedate/" + this.state.t)
             .then(response => response.json())
-            .then(data => this.setState({p: data}))
+            .then(data => this.setState({ p: data }))
 
-            
-            
-            
+
+
+
     }
 
-    
+
 
 
     render() {
 
         let handleColor = time => {
             return time.getHours() > 12 ? "text-success" : "text-error";
-          };
+        };
         return (
-           
-                
-                <Card style={{ width: '100%', height:'100%'}}>
-                    <Card.Header id="CardHeader">Reserve</Card.Header>
-                    <Card.Body>
+
+
+            <Card style={{ width: '100%', height: '100%' }}>
+                <Card.Header id="CardHeader"><h2>Reserve</h2></Card.Header>
+                <Card.Body>
                     <Form.Group id="ReserveForm">
 
-                  
-                  
 
-                    <Row>
-                        <Col>
 
-                        <DatePicker 
-                        showTimeSelect
-                        selected={this.state.t}
-                        onSelect={this.handleDateChange}
-                        dateFormat="yyyy/MM/dd"
-                        timeClassName={handleColor}
-                        inline
-                    />
-                        </Col>
-                        <Col>
+
+                        <Row>
+                            <Col>
+
+                                <DatePicker
+                                    showTimeSelect
+                                    timeFormat="HH:mm"
+                                    timeIntervals={60}
+                                    selected={this.state.t}
+                                    onSelect={this.handleDateChange}
+                                    dateFormat="yyyy/MM/dd"
+                                    timeClassName={handleColor}
+                                    inline
+                                />
+                            </Col>
+                            <Col>
                                 <Col>
                                     <Form.Label>Start Time</Form.Label>
                                     <Form.Control
@@ -196,55 +198,55 @@ export default class ReservationComponent extends React.Component {
                                     <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                                 </Col>
                                 <Col>
-                            <Form.Label>Park</Form.Label>
-                            <Form.Control 
-                                name="Park"
-                                required
-                                type="text"
-                                placeholder="Business Name"
-                                onChange={this.handleChange}
-                                value={this.state.Park} >
-                                
-                                </Form.Control>
-                            <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-                        </Col>
+                                    <Form.Label>Park</Form.Label>
+                                    <Form.Control
+                                        name="Park"
+                                        required
+                                        type="text"
+                                        placeholder="Business Name"
+                                        onChange={this.handleChange}
+                                        value={this.state.Park} >
+
+                                    </Form.Control>
+                                    <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                                </Col>
 
 
-                        </Col>
-
-                            
-                    </Row>
+                            </Col>
 
 
-                    <Row>
-                        <Col>
-                        {
-                            this.state.SubResponse != ""
-                        ?
-                        <Alert variant='success'>{this.state.SubResponse.Status} court {this.state.SubResponse.court} on {this.state.SubResponse.date} at {this.state.SubResponse.time} </Alert>
-                        :
-                        null
-                        }
-                        </Col>
-                    </Row>
-                    
+                        </Row>
 
-                     
-                           
 
-                  
-                    <br/>
-                    <Button onClick={this.handleSubmit}>Submit</Button>
+                        <Row>
+                            <Col>
+                                {
+                                    this.state.SubResponse != ""
+                                        ?
+                                        <Alert variant='success'>{this.state.SubResponse.Status} court {this.state.SubResponse.court} on {this.state.SubResponse.date} at {this.state.SubResponse.time} </Alert>
+                                        :
+                                        null
+                                }
+                            </Col>
+                        </Row>
+
+
+
+
+
+
+                        <br />
+                        <Button onClick={this.handleSubmit}>Submit</Button>
                     </Form.Group>
-                
-                    </Card.Body>
-                
-                    <p>{this.state.Categories}</p>
 
-                </Card>
-                
-          
-            
+                </Card.Body>
+
+                <p>{this.state.Categories}</p>
+
+            </Card>
+
+
+
         );
     };
 
