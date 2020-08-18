@@ -213,6 +213,7 @@ public class TennisReservationController extends AppController {
         res.put("time", DateCourtConfirmation.get(2));
         res.put("park", ParkName);
         res.put("confirmationpdf", pdf + ".pdf");
+        res.put("Status", "Successfully reserved");
         return res;
         
     }

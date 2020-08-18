@@ -3,7 +3,8 @@ import { Row, Col } from 'react-bootstrap'
 import CardComponent from '../CardComponent/Count/CardCountComponent'
 import CardTableComponent from '../CardComponent/Table/CardTableComponent'
 import CardComponentBase from '../CardComponent/Base/CardComponentBase'
-
+import ReservationComponent from '../ReservationComponent/ReservationComponent'
+import CardReserve from '../CardComponent/Reserve/CardReserve'
 
 
 export default class HomePage extends React.Component {
@@ -32,15 +33,13 @@ export default class HomePage extends React.Component {
                     </Row>
                 
                     <Row className="Row-Grid">
-                        <Col lg="4">
-                            <CardComponentBase></CardComponentBase>
+                        <Col lg="8">
+                        <ReservationComponent></ReservationComponent>
                         </Col>
                         <Col lg="4">
                         <CardComponentBase></CardComponentBase>
                         </Col>
-                        <Col lg="4">
-                        <CardComponentBase></CardComponentBase>
-                        </Col>
+                       
                     </Row>
               
                     <Row className="Row-Grid">

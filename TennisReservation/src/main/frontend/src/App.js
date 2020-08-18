@@ -57,11 +57,7 @@ class App extends Component {
 
                 </HashRouter>
             </div>
-         
-        
-              <footer>
-                app
-              </footer>
+      
 
       </div>
     )

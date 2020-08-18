@@ -1,7 +1,8 @@
 import React from 'react'
-import { Form, Col, Row, Card, Button } from 'react-bootstrap'
+import { Form, Col, Row, Card, Button, Alert } from 'react-bootstrap'
 import './styles.css'
 import '../BookingComponent/Bookings.css'
+import DatePicker from 'react-datepicker'
 
 export default class ReservationComponent extends React.Component {
     constructor(props) {
@@ -11,6 +12,7 @@ export default class ReservationComponent extends React.Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.refreshFiles = this.refreshFiles.bind(this);
+        this.handleDateChange = this.handleDateChange.bind(this);
 
         this.state = {
             Day: "",
@@ -18,13 +20,62 @@ export default class ReservationComponent extends React.Component {
             StartTime: "",
             EndTime: "",
             Categories: "",
-            Month: ""
+            Month: "",
+            t: "",
+            p: "",
+            SubResponse: ""
         };
     }
 
     async handleSubmit(e) {
         e.preventDefault();
-        var api = '/Run/' + this.state.Park + '/' + this.state.Day + '/' + this.state.Month +'/'+ this.state.StartTime + '/' + this.state.EndTime
+
+        var res = this.state.p.newDate.split("-")
+        var Day = res[2];
+        var Year = res[0];
+        var Month = res[1];
+        var choice = "";
+        switch(Month) {
+            case '01':
+                choice = 'janvier';
+                break;
+            case '02':
+                choice = 'février'
+                break;
+            case '03':
+                choice = 'mars'
+                break;
+            case '04':
+                choice = 'avril'
+                break;
+            case '05':
+                choice = 'mai'
+                break;
+            case '06':
+                choice = 'juin'
+                break;
+            case '07':
+                choice = 'juillet'
+                break;
+            case "08":
+                choice = 'août'
+                break;
+            case '09':
+                choice = 'septembre'
+                break;
+            case '10':
+                choice = 'octobre'
+                break;
+            case '11':
+                choice = 'novembre'
+                break;
+            case '12':
+                choice = 'decembre'
+                break;
+
+        }
+
+        var api = '/Run/' + this.state.Park + '/' + Day + '/' + choice +'/'+ this.state.StartTime + '/' + this.state.EndTime
         this.setState({
             Day: "",
             Park: "",
@@ -33,12 +84,12 @@ export default class ReservationComponent extends React.Component {
             Month: ""
         });
         console.log(api);
-        const response = await fetch(api);
+
+        const response = await fetch(api)
         const body = await response.json();
 
-        console.log(response);
-        console.log(body);
-        console.log(JSON.stringify(body))
+        console.log(body)
+        this.setState({SubResponse: body})
 
         await fetch('/NewReservation/', {
             method: 'POST',
@@ -71,35 +122,56 @@ export default class ReservationComponent extends React.Component {
         });
     }
 
+    async handleDateChange(date) {
+            await this.setState({
+              t: date
+            });
+
+            console.log(this.state.t)
+
+            
+            await fetch("/Changedate/" + this.state.t)
+            .then(response => response.json())
+            .then(data => this.setState({p: data}))
+
+            
+            
+            
+    }
+
+    
+
 
     render() {
+
+        let handleColor = time => {
+            return time.getHours() > 12 ? "text-success" : "text-error";
+          };
         return (
-            <div id="ContainerReserve">
+           
                 
-                <Card id="Card">
+                <Card style={{ width: '100%', height:'100%'}}>
                     <Card.Header id="CardHeader">Reserve</Card.Header>
                     <Card.Body>
                     <Form.Group id="ReserveForm">
 
-                    <Row>
-                        <Col lg="12">
-                            <Form.Label>Park</Form.Label>
-                            <Form.Control 
-                                name="Park"
-                                required
-                                type="text"
-                                placeholder="Business Name"
-                                onChange={this.handleChange}
-                                value={this.state.Park} >
-                                
-                                </Form.Control>
-                            <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-                        </Col>
-                    </Row>
+                  
+                  
 
-                    
                     <Row>
-                                <Col lg="6">
+                        <Col>
+
+                        <DatePicker 
+                        showTimeSelect
+                        selected={this.state.t}
+                        onSelect={this.handleDateChange}
+                        dateFormat="yyyy/MM/dd"
+                        timeClassName={handleColor}
+                        inline
+                    />
+                        </Col>
+                        <Col>
+                                <Col>
                                     <Form.Label>Start Time</Form.Label>
                                     <Form.Control
                                         name="StartTime"
@@ -110,7 +182,7 @@ export default class ReservationComponent extends React.Component {
                                         value={this.state.StartTime} />
                                     <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                                 </Col>
-                                <Col lg="6">
+                                <Col>
                                     <Form.Label>End Time</Form.Label>
                                     <Form.Control
                                         name="EndTime"
@@ -123,41 +195,39 @@ export default class ReservationComponent extends React.Component {
                                     />
                                     <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                                 </Col>
-                    </Row>
-
-                    <Row>
-
-                        <Col lg="6">
-                            <Form.Label>Month</Form.Label>
-                            <Form.Control
-                                name="Month"
+                                <Col>
+                            <Form.Label>Park</Form.Label>
+                            <Form.Control 
+                                name="Park"
                                 required
                                 type="text"
-                                placeholder="Day of Month"
+                                placeholder="Business Name"
                                 onChange={this.handleChange}
-                                value={this.state.Month}
-                                pattern="^[a-zA-Z]+$"
-                            />
-
+                                value={this.state.Park} >
+                                
+                                </Form.Control>
                             <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                         </Col>
-                        <Col lg="6">
-                            <Form.Label>Day</Form.Label>
-                            <Form.Control
-                                name="Day"
-                                required
-                                type="text"
-                                placeholder="Day of Month"
-                                onChange={this.handleChange}
-                                value={this.state.Day}
-                                pattern="^[a-zA-Z]+$"
-                            />
 
-                            <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+
                         </Col>
 
                             
                     </Row>
+
+
+                    <Row>
+                        <Col>
+                        {
+                            this.state.SubResponse != ""
+                        ?
+                        <Alert variant='success'>{this.state.SubResponse.Status} court {this.state.SubResponse.court} on {this.state.SubResponse.date} at {this.state.SubResponse.time} </Alert>
+                        :
+                        null
+                        }
+                        </Col>
+                    </Row>
+                    
 
                      
                            
@@ -173,7 +243,7 @@ export default class ReservationComponent extends React.Component {
 
                 </Card>
                 
-            </div>
+          
             
         );
     };
