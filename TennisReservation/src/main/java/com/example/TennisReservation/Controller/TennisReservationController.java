@@ -28,9 +28,9 @@ import java.util.Date;
 public class TennisReservationController extends AppController {
 
     
-    @RequestMapping("/Run/{Park}/{Day}/{StartTime}/{EndTime}")
+    @RequestMapping("/Run/{Park}/{Day}/{Month}/{StartTime}/{EndTime}")
     public Map<String, String> execute(@PathVariable("Park") String park, @PathVariable("Day") String day,
-            @PathVariable("StartTime") String timeStart, @PathVariable("EndTime") String timeEnd) {
+            @PathVariable("StartTime") String timeStart, @PathVariable("EndTime") String timeEnd, @PathVariable("Month") String month) {
 
         String password = this.sendPass();
         
@@ -45,7 +45,8 @@ public class TennisReservationController extends AppController {
 
         //Filters
         String datexpath = "//*[@id='u6510_btnFacilityReservationSearchReserveDateCalendar']";
-        
+        String Monthxapth = "//*[@id='formSearch']/u2000-search-header/div/div[2]/div[2]/div/div/div[4]/div/div/ul/li/div/table/thead/tr[1]/th[2]";
+        String September = "//span[text()='" + month + "']";
         String ParkDropdown = "//*[@id='u6510_selectFacilityReservationSearchSite']";
 
         String SelectedPark = "";
@@ -102,7 +103,10 @@ public class TennisReservationController extends AppController {
 
         modalLoad(driver);
 
+        
         waitThenClick(driver, datexpath);
+        waitThenClick(driver, Monthxapth);
+        waitThenClick(driver, September);
 
         //gets list of all parts of calendar that match, in the case of two that match, create List and choose last occurence
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(specificdate)));

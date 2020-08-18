@@ -17,18 +17,20 @@ export default class ReservationComponent extends React.Component {
             Park: "",
             StartTime: "",
             EndTime: "",
-            Categories: ""
+            Categories: "",
+            Month: ""
         };
     }
 
     async handleSubmit(e) {
         e.preventDefault();
-        var api = '/Run/' + this.state.Park + '/' + this.state.Day + '/' + this.state.StartTime + '/' + this.state.EndTime
+        var api = '/Run/' + this.state.Park + '/' + this.state.Day + '/' + this.state.Month +'/'+ this.state.StartTime + '/' + this.state.EndTime
         this.setState({
             Day: "",
             Park: "",
             StartTime: "",
-            EndTime: ""
+            EndTime: "",
+            Month: ""
         });
         console.log(api);
         const response = await fetch(api);
@@ -95,13 +97,9 @@ export default class ReservationComponent extends React.Component {
                         </Col>
                     </Row>
 
-                    <br/>
                     
                     <Row>
-
-                        <Col lg="12">
-                            <Row>
-                                <Col lg="3">
+                                <Col lg="6">
                                     <Form.Label>Start Time</Form.Label>
                                     <Form.Control
                                         name="StartTime"
@@ -112,7 +110,7 @@ export default class ReservationComponent extends React.Component {
                                         value={this.state.StartTime} />
                                     <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                                 </Col>
-                                <Col lg="3">
+                                <Col lg="6">
                                     <Form.Label>End Time</Form.Label>
                                     <Form.Control
                                         name="EndTime"
@@ -125,8 +123,25 @@ export default class ReservationComponent extends React.Component {
                                     />
                                     <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                                 </Col>
-                                <Col lg="6">
+                    </Row>
 
+                    <Row>
+
+                        <Col lg="6">
+                            <Form.Label>Month</Form.Label>
+                            <Form.Control
+                                name="Month"
+                                required
+                                type="text"
+                                placeholder="Day of Month"
+                                onChange={this.handleChange}
+                                value={this.state.Month}
+                                pattern="^[a-zA-Z]+$"
+                            />
+
+                            <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                        </Col>
+                        <Col lg="6">
                             <Form.Label>Day</Form.Label>
                             <Form.Control
                                 name="Day"
@@ -139,12 +154,15 @@ export default class ReservationComponent extends React.Component {
                             />
 
                             <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-
                         </Col>
-                            </Row>
 
-                        </Col>
+                            
                     </Row>
+
+                     
+                           
+
+                  
                     <br/>
                     <Button onClick={this.handleSubmit}>Submit</Button>
                     </Form.Group>

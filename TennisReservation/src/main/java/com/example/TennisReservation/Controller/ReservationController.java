@@ -41,7 +41,7 @@ public class ReservationController {
 
     @RequestMapping("/")
     public String redirToList() {
-        return "redirect:/reservation/list";
+        return "forward:/index.html";
     }
 
     @RequestMapping({ "/reservation/list", "/Reservation" })
