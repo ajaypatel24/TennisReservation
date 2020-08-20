@@ -16,8 +16,10 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.example.TennisReservation.Repository.DistributionRepository;
 import com.example.TennisReservation.Repository.ReservationRepository;
 import com.example.TennisReservation.Service.ReservationService;
+import com.example.TennisReservation.Model.Distribution;
 import com.example.TennisReservation.Model.Reservation;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +37,9 @@ public class ReservationController {
 
     @Autowired
     private ReservationService reservationService;
+
+    @Autowired
+    private DistributionRepository distributionrepository;
 
     @Autowired
     private ReservationRepository reservationRepository;
@@ -55,12 +60,13 @@ public class ReservationController {
                 private static final long serialVersionUID = 1L;
 
                 {
-                add(reservation.getConfirmationPDF());
-                add(reservation.getDate());
-                add(reservation.getTime());
-                add(Integer.toString(reservation.getCourt()));
-                add(reservation.getPark()); 
-                }});
+                    add(reservation.getConfirmationPDF());
+                    add(reservation.getDate());
+                    add(reservation.getTime());
+                    add(Integer.toString(reservation.getCourt()));
+                    add(reservation.getPark());
+                }
+            });
         }
 
         return res;
@@ -68,7 +74,6 @@ public class ReservationController {
 
     @RequestMapping("/Reservation/{id}")
     public Reservation getReservation(@PathVariable Long id) {
-        System.out.println("invoked");
         return reservationService.getByReservationId(id);
     }
 
@@ -80,7 +85,7 @@ public class ReservationController {
     @RequestMapping("/ReservationDateCount/{date}")
     public Map<String, Long> getReservationCountDate(@PathVariable String date) {
         long count = reservationService.getReservationCountByDate(date);
-        return new HashMap<String, Long>(){
+        return new HashMap<String, Long>() {
             private static final long serialVersionUID = 1L;
             {
                 put("count", count);
@@ -88,13 +93,16 @@ public class ReservationController {
         };
     }
 
-
     @RequestMapping("ReservationRange/{date1}/{date2}")
     public List<Reservation> getResRange(@PathVariable String date1, @PathVariable String date2) {
         return reservationService.getReservationByDateRange(date1, date2);
 
     }
 
+    @RequestMapping("/ReservationCourtDistribution/{date}")
+    public List<Distribution> getReservationCourtDistribution(@PathVariable String date) {
+        return distributionrepository.getCourtDistributionByDate(date);
+    }
 
     @PostMapping("/NewReservation/")
     @ResponseStatus(HttpStatus.CREATED)
@@ -107,7 +115,6 @@ public class ReservationController {
         reservation.setPark(body.get("park"));
 
         Reservation res = reservationService.addReservation(reservation);
-        System.out.println(res.getReservationId() + " " + res.getCourt() + " " + res.getConfirmationPDF() + " " + res.getDate());
         response.setHeader("Location", (request.getRequestURL().append("/").append(res.getReservationId())).toString());
 
     }
@@ -120,23 +127,19 @@ public class ReservationController {
         return reservationService.getNewestFile();
     }
 
-
     @RequestMapping("/Changedate/{date}")
-    public Map<String,String> convertDate(@PathVariable Date date) throws ParseException {
-        System.out.println(date);
+    public Map<String, String> convertDate(@PathVariable Date date) throws ParseException {
         DateFormat format = new SimpleDateFormat("EEE MMM dd hh:kk:hh zzz yyyy", Locale.ENGLISH);
         DateFormat targetFormat = new SimpleDateFormat("yyyy-MM-dd");
         date = format.parse(date.toString());
-       String res = targetFormat.format(date);
-       System.out.println(res);
-       
-        return new HashMap<String,String>(){
+        String res = targetFormat.format(date);
+
+        return new HashMap<String, String>() {
             private static final long serialVersionUID = 1L;
             {
                 put("newDate", res);
             }
         };
     }
-
 
 }

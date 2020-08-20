@@ -9,6 +9,7 @@ export default class HomePage extends React.Component {
 
         this.state = {
             TableData: [],
+            CourtData: [],
             url: "/confirmation/",
             pdf: ""
         };
@@ -17,10 +18,21 @@ export default class HomePage extends React.Component {
 
 
 
-    componentDidMount() {
-        fetch("/ReservationDateCount/" + moment().format("YYYY-MM-DD"))
+    async componentDidMount() {
+        await fetch("/ReservationDateCount/" + moment().format("YYYY-MM-DD"))
             .then(response => response.json())
             .then(data => this.setState({ TableData: data }))
+
+        await fetch("/ReservationCourtDistribution/" + moment().format("YYYY-MM-DD"))
+            .then(response => response.json())
+            .then(data => this.setState({CourtData: data}))
+
+        const charData = [['Court', 'Count']]
+        for (let i = 0; i < this.state.CourtData.length; i += 1) {
+            charData.push([this.state.CourtData[i].court, this.state.CourtData[i].count])
+        }
+        this.setState({CourtData: charData})
+        
     }
 
     handleRowClick = (event, rowData) => {
@@ -28,34 +40,26 @@ export default class HomePage extends React.Component {
         window.open(link)
     }
     render() {
+
+        
+
         return (
 
 
             <Card className="Card-Standard" style={{ width: '100%', height: '100%' }}>
                 <Card.Body>
                     <Card.Title>Number of Reservations</Card.Title>
-
                     <Card.Subtitle className="mb-2 text-muted">{moment().format("LLLL")}</Card.Subtitle>
                     <Card.Text style={{ fontSize: '7rem', fontWeight: 600 }}>
                         {this.state.TableData.count}
                         <Chart
-                            width={'500px'}
-                            height={'400px'}
-                            chartType="PieChart"
+                            width={'100%'}
+                            height={'50%'}
+                            chartType="ColumnChart"
                             loader={<div>Loading Chart</div>}
-                            data={[
-                                ['Court', 'Number of Reservations'],
-                                ['Court 1', 2],
-                                ['Court 2', 1],
-                                ['Court 3', 0],
-                                ['Court 4', 1], // Below limit.
-                                ['Court 5', 0], // Below limit.
-                            ]}
-                            options={{
-                                title: 'Court Distribution',
-                                sliceVisibilityThreshold: 0.2, // 20%
-                            }}
-                            rootProps={{ 'data-testid': '7' }}
+                            data={this.state.CourtData}
+                       
+                            
                         />
                     </Card.Text>
 

@@ -98,7 +98,6 @@ public class EmailVerificationController extends AppController {
             Message[] messages = folder.search(search);
 
             for (int i = 1; i < messages.length; i++) {
-                System.out.println(messages[i].getSubject());
                 getAttachment(messages[i]);
                 folder.setFlags(new Message[] {messages[i]}, new Flags(Flags.Flag.SEEN), true);
             }

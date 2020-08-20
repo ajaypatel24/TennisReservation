@@ -3,6 +3,7 @@ package com.example.TennisReservation.Service;
 import java.util.List;
 import java.util.Map;
 
+import com.example.TennisReservation.Model.Distribution;
 import com.example.TennisReservation.Model.Reservation;
 
 import org.springframework.data.jpa.repository.Query;
@@ -30,4 +31,6 @@ public interface ReservationService {
     List<Reservation> getReservationByDate(String date);
 
     List<Reservation> getReservationByDateRange(String date1, String date2);
+
+    List<Distribution> getCourtDistributionByDate(String date);
 }

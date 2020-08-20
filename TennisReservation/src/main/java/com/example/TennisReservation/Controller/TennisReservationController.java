@@ -112,8 +112,6 @@ public class TennisReservationController extends AppController {
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(specificdate)));
         List<WebElement> dateChoice = driver.findElements(By.xpath(specificdate)); 
 
-        System.out.println("0:" + dateChoice.get(0).getText());
-        System.out.println("1:" + dateChoice.get(dateChoice.size()-1).getText());
         if (Integer.parseInt(dateChoice.get(0).getText()) >= 26) {
             dateChoice.get(dateChoice.size()-1).click();
         }
