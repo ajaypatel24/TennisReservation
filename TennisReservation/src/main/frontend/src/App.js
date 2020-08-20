@@ -38,9 +38,6 @@ class App extends Component {
                         <Nav.Link href="#/">Home</Nav.Link>
                     </Nav.Item>
                     <Nav.Item as="li">
-                        <Nav.Link href="#/Reserve">Reserve</Nav.Link>
-                    </Nav.Item>
-                    <Nav.Item as="li">
                         <Nav.Link href="#/Booking">Bookings</Nav.Link>
                     </Nav.Item>
                 </Nav>
@@ -57,11 +54,7 @@ class App extends Component {
 
                 </HashRouter>
             </div>
-         
-        
-              <footer>
-                app
-              </footer>
+      
 
       </div>
     )

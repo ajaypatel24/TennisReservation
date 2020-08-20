@@ -1,6 +1,7 @@
 package com.example.TennisReservation.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 import com.example.TennisReservation.Model.Reservation;
 
@@ -21,5 +22,4 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 
     @Query(value = "SELECT * FROM reservation WHERE (date > ?1 OR date = ?1) AND (date < ?2 OR date = ?2) ORDER BY date", nativeQuery = true)
     List<Reservation> findByDateRange(String date1, String date2);
-
 }

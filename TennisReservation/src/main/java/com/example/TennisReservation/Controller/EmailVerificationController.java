@@ -93,12 +93,11 @@ public class EmailVerificationController extends AppController {
 
             SearchTerm sender = new FromTerm(new InternetAddress("NePasRepondre@montreal.ca"));
             SearchTerm unread = new FlagTerm(new Flags(Flags.Flag.SEEN), false);
-            SearchTerm[] filters = { sender, unread };
+            SearchTerm[] filters = { sender, unread};
             SearchTerm search = new AndTerm(filters);
             Message[] messages = folder.search(search);
 
             for (int i = 1; i < messages.length; i++) {
-                System.out.println(messages[i].getSubject());
                 getAttachment(messages[i]);
                 folder.setFlags(new Message[] {messages[i]}, new Flags(Flags.Flag.SEEN), true);
             }
@@ -123,7 +122,7 @@ public class EmailVerificationController extends AppController {
                 if (bodyPart.ATTACHMENT.equalsIgnoreCase(bodyPart.getDisposition())) {
                     String filename = bodyPart.getFileName();
                     AttachFile += filename + ", ";
-                    bodyPart.saveFile("/Users/ajaypatel/Desktop/TennisReservation/TennisReservation/frontend/public/confirmation"
+                    bodyPart.saveFile("/Users/ajaypatel/Desktop/TennisReservation/TennisReservation/src/main/frontend/public/confirmation"
                             + File.separator + filename);
                 } else {
                     MessageContent = bodyPart.getContent().toString();

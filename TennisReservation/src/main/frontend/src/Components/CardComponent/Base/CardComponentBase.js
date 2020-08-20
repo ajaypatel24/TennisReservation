@@ -15,9 +15,9 @@ export default class HomePage extends React.Component {
 
             <Card className="Card-Standard" style={{ width: '100%', height:'100%'}}>
                 <Card.Body>
-                    <Card.Title>Card Title</Card.Title>
+                    <Card.Title>Park Information?</Card.Title>
                     
-                    <Card.Subtitle className="mb-2 text-muted">Card Subtitle</Card.Subtitle>
+                    <Card.Subtitle className="mb-2 text-muted">Graph of distribution</Card.Subtitle>
                     <Card.Text>
                         Card Text
                     </Card.Text>

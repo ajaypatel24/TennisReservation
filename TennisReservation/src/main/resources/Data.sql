@@ -1,5 +1,0 @@
-INSERT INTO Reservation VALUES (1,1,"2020-06-20", "HEllo")
-INSERT INTO Reservation VALUES (2,1,"2020-06-19", "HEllo")
-INSERT INTO Reservation VALUES (3,2,"2020-06-21", "HEllo")
-INSERT INTO Reservation VALUES (4,4,"2020-06-22", "HEllo")
-INSERT INTO Reservation VALUES (5,1,"2020-06-23", "HEllo")
