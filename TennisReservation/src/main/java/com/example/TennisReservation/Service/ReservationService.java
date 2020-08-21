@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.example.TennisReservation.Model.Distribution;
+import com.example.TennisReservation.Model.Park;
 import com.example.TennisReservation.Model.Reservation;
 
 import org.springframework.data.jpa.repository.Query;
@@ -15,10 +16,7 @@ public interface ReservationService {
     
     List<Reservation> listAll();
 
-    /*
-    @Query(value = "select * from reservation order by reservation_id LIMIT 1")
-    Map<String, Long> getLast();
-    */
+    List<Park> getParkData(String park);
     
     Reservation getByReservationId(Long id);
 

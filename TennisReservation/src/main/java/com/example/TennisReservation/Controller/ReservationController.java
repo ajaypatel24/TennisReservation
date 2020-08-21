@@ -17,9 +17,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.example.TennisReservation.Repository.DistributionRepository;
+import com.example.TennisReservation.Repository.ParkRepository;
 import com.example.TennisReservation.Repository.ReservationRepository;
 import com.example.TennisReservation.Service.ReservationService;
 import com.example.TennisReservation.Model.Distribution;
+import com.example.TennisReservation.Model.Park;
 import com.example.TennisReservation.Model.Reservation;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +42,9 @@ public class ReservationController {
 
     @Autowired
     private DistributionRepository distributionrepository;
+
+    @Autowired
+    private ParkRepository parkrepository;
 
     @Autowired
     private ReservationRepository reservationRepository;
@@ -140,6 +145,14 @@ public class ReservationController {
                 put("newDate", res);
             }
         };
+    }
+
+    @RequestMapping("/ParkInformation/{park}")
+    public List<Park> parkInformation(@PathVariable String park) {
+        List<Park> res = parkrepository.getParkData(park);
+        System.out.println(res.size());
+
+        return parkrepository.getParkData(park);
     }
 
 }

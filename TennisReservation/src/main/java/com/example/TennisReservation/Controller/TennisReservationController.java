@@ -56,15 +56,15 @@ public class TennisReservationController extends AppController {
         String ParkNoelSud = "//*[@id='u6510_selectFacilityReservationSearchSite']/option[25]";
 
         switch(park) {
-            case "Marcel":
+            case "marcel":
                 SelectedPark = ParkMarcelLaurin;
                 ParkName = "Marcel-Laurin";
                 break;
-            case "Marl":
+            case "marl":
                 SelectedPark = ParkMarlBorough;
                 ParkName = "Marlborough";
                 break;
-            case "Noel":
+            case "noel":
                 SelectedPark = ParkNoelSud;
                 ParkName = "Noel-Sud";
                 break;
