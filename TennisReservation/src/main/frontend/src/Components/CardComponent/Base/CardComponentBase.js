@@ -16,6 +16,11 @@ export default class HomePage extends React.Component {
     componentDidMount() {
         this.setState({Park: sessionStorage.getItem("Park")})
         
+        fetch("http://api.openweathermap.org/data/2.5/weather?q=Montreal&appid=" + "0beae4d33f55327b96264bb3b1d94208")
+        .then(response => response.json())
+        .then(data => console.log(data))
+
+
     }
     
     

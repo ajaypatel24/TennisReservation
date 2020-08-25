@@ -30,8 +30,8 @@ public class AppController {
         }
         return password;
         
-            
     }
+
     public String decrypt(String word) {
         SecretKeyFactory skf;
         try {
