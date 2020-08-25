@@ -3,8 +3,11 @@
 .settings
 .classpath
 .project
-
+./target
 *.class
 *.jar
 *.war
 *.ear
+/node_modules
+sen.txt
+*.pdf

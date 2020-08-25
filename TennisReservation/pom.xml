@@ -1,80 +1,290 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.3.2.RELEASE</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+    <groupId>com.example</groupId>
+    <artifactId>TennisReservation</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>TennisReservation</name>
+    <description>Tennis Reservation System</description>
+    <packaging>war</packaging>
+    <properties>
+        <java.version>11</java.version>
+    </properties>
 
-  <groupId>TennisReservation</groupId>
-  <artifactId>TennisReservation</artifactId>
-  <version>1.0-SNAPSHOT</version>
+    
 
-  <name>TennisReservation</name>
-  <!-- FIXME change it to the project's website -->
-  <url>http://www.example.com</url>
+    <dependencies>
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-tomcat</artifactId>
+        <scope>provided</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-jdbc</artifactId>
+        <version>2.3.2.RELEASE</version>
+    </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
 
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>1.7</maven.compiler.source>
-    <maven.compiler.target>1.7</maven.compiler.target>
-  </properties>
-
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.11</version>
-      <scope>test</scope>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.junit.vintage</groupId>
+                    <artifactId>junit-vintage-engine</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        
+      
+        <dependency>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-devtools</artifactId>
+          <optional>true</optional>
+     </dependency>
+        <dependency>
+              <groupId>junit</groupId>
+              <artifactId>junit</artifactId>
+              <version>4.11</version>
+              <scope>test</scope>
+            </dependency>
+            <dependency>
+              <groupId>org.seleniumhq.selenium</groupId>
+              <artifactId>selenium-java</artifactId>
+              <version>3.141.59</version>
+          </dependency>
+          <dependency>
+            <groupId>org.apache.maven.shared</groupId>
+            <artifactId>maven-invoker</artifactId>
+          <version>2.1.1</version>
+        </dependency>
+        <dependency>
+          <groupId>org.testng</groupId>
+          <artifactId>testng</artifactId>
+          <version>6.8</version>
+          <scope>test</scope>
+        </dependency>
+        <dependency>
+          <groupId>org.quartz-scheduler</groupId>
+          <artifactId>quartz</artifactId>
+          <version>2.3.2</version>
+        </dependency>
+        <dependency>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-api</artifactId>
+          <version>1.7.30</version>
+        </dependency>
+        <dependency>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-web</artifactId>
+          <version>2.3.1.RELEASE</version>
+      </dependency>
+      <dependency>
+        <groupId>javax.mail</groupId>
+        <artifactId>mail</artifactId>
+        <version>1.4.7</version>
     </dependency>
     <dependency>
-      <groupId>org.seleniumhq.selenium</groupId>
-      <artifactId>selenium-java</artifactId>
-      <version>3.141.59</version>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>3.10</version>
   </dependency>
-  </dependencies>
+  <dependency>
+    <groupId>com.h2database</groupId>
+    <artifactId>h2</artifactId>
+    <version>1.4.200</version>
+    <scope>test</scope>
+</dependency>
+<dependency>
+  <groupId>javax.persistence</groupId>
+  <artifactId>javax.persistence-api</artifactId>
+  <version>2.2</version>
+</dependency>
+<dependency>
+  <groupId>org.projectlombok</groupId>
+  <artifactId>lombok</artifactId>
+  <version>1.18.12</version>
+  <scope>provided</scope>
+</dependency>
+<dependency>
+  <groupId>org.springframework.data</groupId>
+  <artifactId>spring-data-jpa</artifactId>
+  <version>2.3.2.RELEASE</version>
+</dependency>
+<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-jpa -->
+<dependency>
+  <groupId>org.springframework.boot</groupId>
+  <artifactId>spring-boot-starter-data-jpa</artifactId>
+  <version>2.3.2.RELEASE</version>
+</dependency>
 
-  <build>
-    <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
-      <plugins>
-        <!-- clean lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#clean_Lifecycle -->
-        <plugin>
-          <artifactId>maven-clean-plugin</artifactId>
-          <version>3.1.0</version>
-        </plugin>
-        <!-- default lifecycle, jar packaging: see https://maven.apache.org/ref/current/maven-core/default-bindings.html#Plugin_bindings_for_jar_packaging -->
-        <plugin>
-          <artifactId>maven-resources-plugin</artifactId>
-          <version>3.0.2</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.8.0</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-surefire-plugin</artifactId>
-          <version>2.22.1</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-jar-plugin</artifactId>
-          <version>3.0.2</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-install-plugin</artifactId>
-          <version>2.5.2</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-deploy-plugin</artifactId>
-          <version>2.8.2</version>
-        </plugin>
-        <!-- site lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#site_Lifecycle -->
-        <plugin>
-          <artifactId>maven-site-plugin</artifactId>
-          <version>3.7.1</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-project-info-reports-plugin</artifactId>
-          <version>3.0.0</version>
-        </plugin>
-      </plugins>
-    </pluginManagement>
-  </build>
+ <!-- API, java.xml.bind module -->
+<dependency>
+  <groupId>jakarta.xml.bind</groupId>
+  <artifactId>jakarta.xml.bind-api</artifactId>
+  <version>2.3.2</version>
+</dependency>
+
+<!-- Runtime, com.sun.xml.bind module -->
+<dependency>
+  <groupId>org.glassfish.jaxb</groupId>
+  <artifactId>jaxb-runtime</artifactId>
+  <version>2.3.2</version>
+</dependency>
+
+<dependency>
+  <groupId>org.postgresql</groupId>
+  <artifactId>postgresql</artifactId>
+  <version>42.2.14</version>
+</dependency>
+    </dependencies>
+
+    <build>
+        <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
+          <plugins>
+            <!-- clean lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#clean_Lifecycle -->
+            <plugin>
+              <artifactId>maven-clean-plugin</artifactId>
+              <version>3.1.0</version>
+            </plugin>
+            
+            <!-- default lifecycle, jar packaging: see https://maven.apache.org/ref/current/maven-core/default-bindings.html#Plugin_bindings_for_jar_packaging -->
+            <plugin>
+              <artifactId>maven-resources-plugin</artifactId>
+              <version>3.0.2</version>
+            </plugin>
+            <plugin>
+              <artifactId>maven-compiler-plugin</artifactId>
+              <version>3.8.0</version>
+            </plugin>
+            <plugin>
+              <artifactId>maven-surefire-plugin</artifactId>
+              <version>2.22.1</version>
+            </plugin>
+          
+            <plugin>
+              <artifactId>maven-install-plugin</artifactId>
+              <version>2.5.2</version>
+            </plugin>
+            <plugin>
+              <artifactId>maven-deploy-plugin</artifactId>
+              <version>2.8.2</version>
+            </plugin>
+            <!-- site lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#site_Lifecycle -->
+            <plugin>
+              <artifactId>maven-site-plugin</artifactId>
+              <version>3.7.1</version>
+            </plugin>
+            <plugin>
+              <artifactId>maven-project-info-reports-plugin</artifactId>
+              <version>3.0.0</version>
+            </plugin>
+            <plugin>
+              <groupId>org.springframework.boot</groupId>
+              <artifactId>spring-boot-maven-plugin</artifactId>
+              <version>2.0.3.RELEASE</version>
+              <executions>
+                <execution>
+                    <goals>
+                        <goal>repackage</goal>
+                    </goals>
+                </execution>
+            </executions>
+          </plugin>
+            <plugin>
+              <groupId>com.github.eirslett</groupId>
+              <artifactId>frontend-maven-plugin</artifactId>
+              <version>1.7.6</version>
+              <executions>
+                <execution>
+                <id>Install Node and npm ...</id>
+                <goals>
+                  <goal>install-node-and-npm</goal>
+                </goals>
+                <phase>generate-resources</phase>
+                <configuration>
+                  <nodeVersion>v14.5.0</nodeVersion>
+                  <npmVersion>6.14.5</npmVersion>
+                </configuration>
+              </execution>
+
+              <execution>
+                <id>npm install all dependencies</id>
+                <goals>
+                  <goal>npm</goal>
+                </goals>
+                <phase>generate-resources</phase>
+                <configuration>
+                  <arguments>install</arguments>
+                </configuration>
+              </execution>
+
+              <execution>
+                <id>npm build react app</id>
+                <goals>
+                  <goal>npm</goal>
+                </goals>
+                <phase>generate-resources</phase>
+                <configuration>
+                  <arguments>run build</arguments>
+                </configuration>
+              </execution>
+              </executions>
+
+              <configuration>
+                <workingDirectory>src/main/frontend</workingDirectory>
+              </configuration>
+
+            </plugin>
+
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-resources-plugin</artifactId>
+              <executions>
+                <execution>
+                  <id>copy frontend to static spring application folder target folder</id>
+                  <phase>process-resources</phase>
+                  <goals>
+                    <goal>copy-resources</goal>
+                  </goals>
+                  <configuration>
+                    <outputDirectory>target/classes/static</outputDirectory>
+                    <resources>
+                      <resource>
+                        <directory>src/main/frontend/build</directory>
+                        <filtering>true</filtering>
+                      </resource>
+                    </resources>
+                    <artifactItems>
+                      <artifactItem>
+                          <groupId>com.github.jsimone</groupId>
+                          <artifactId>webapp-runner</artifactId>
+                          <version>9.0.30.0</version>
+                          <destFileName>webapp-runner.jar</destFileName>
+                      </artifactItem>
+                  </artifactItems>
+                  </configuration>
+                </execution>
+               
+
+              </executions>
+            </plugin>
+           
+          </plugins>
+        </pluginManagement>
+        
+    </build>
+
 </project>
