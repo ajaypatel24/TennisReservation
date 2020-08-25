@@ -3,12 +3,9 @@ package com.example.TennisReservation.Controller;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -16,13 +13,13 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.example.TennisReservation.Model.Distribution;
+import com.example.TennisReservation.Model.Park;
+import com.example.TennisReservation.Model.Reservation;
 import com.example.TennisReservation.Repository.DistributionRepository;
 import com.example.TennisReservation.Repository.ParkRepository;
 import com.example.TennisReservation.Repository.ReservationRepository;
 import com.example.TennisReservation.Service.ReservationService;
-import com.example.TennisReservation.Model.Distribution;
-import com.example.TennisReservation.Model.Park;
-import com.example.TennisReservation.Model.Reservation;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -150,8 +147,6 @@ public class ReservationController {
     @RequestMapping("/ParkInformation/{park}")
     public List<Park> parkInformation(@PathVariable String park) {
         List<Park> res = parkrepository.getParkData(park);
-        System.out.println(res.size());
-
         return parkrepository.getParkData(park);
     }
 

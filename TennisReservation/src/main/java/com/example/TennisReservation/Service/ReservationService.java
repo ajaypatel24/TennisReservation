@@ -1,13 +1,11 @@
 package com.example.TennisReservation.Service;
 
 import java.util.List;
-import java.util.Map;
 
 import com.example.TennisReservation.Model.Distribution;
 import com.example.TennisReservation.Model.Park;
 import com.example.TennisReservation.Model.Reservation;
 
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 

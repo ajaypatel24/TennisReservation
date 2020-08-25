@@ -83,12 +83,9 @@ export default class ReservationComponent extends React.Component {
 
         var api = '/Run/' + this.state.Park + '/' + Day + '/' + choice + '/' + this.state.StartTime + '/' + this.state.EndTime
         
-        console.log(api);
-
         const response = await fetch(api)
         const body = await response.json();
 
-        console.log(body)
         this.setState({ SubResponse: body })
 
         await fetch('/NewReservation/', {
@@ -99,7 +96,7 @@ export default class ReservationComponent extends React.Component {
             }
         })
             .then(function (t) {
-                console.log(t);
+                
             })
 
             
@@ -112,9 +109,6 @@ export default class ReservationComponent extends React.Component {
     refreshFiles(e) {
         fetch("/VerificationEmail/")
             .then(response => response.json())
-            .then(data => console.log(data))
-
-
 
     }
 
@@ -125,22 +119,20 @@ export default class ReservationComponent extends React.Component {
             [e.target.name]: e.target.value
         });
 
+        this.setState({SubResponse: ""})
+
     }
 
     async handleTimeChange(time) {
         await this.setState({
             timeVal: time
         });
-
-        console.log(this.state.timeVal)
     }
 
     async handleDateChange(date) {
         await this.setState({
             t: date
         });
-
-        console.log(this.state.t)
 
 
         await fetch("/Changedate/" + this.state.t)
@@ -243,7 +235,7 @@ export default class ReservationComponent extends React.Component {
                                             ?
                                             this.state.Reserving === true
                                             ?
-                                            
+
                                             <Alert variant='primary'>
                                                 <Row>
                                                     <Spinner animation="border" size="sm"/>

@@ -3,7 +3,6 @@ package com.example.TennisReservation.Service;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import com.example.TennisReservation.Model.Distribution;
 import com.example.TennisReservation.Model.Park;
@@ -13,7 +12,6 @@ import com.example.TennisReservation.Repository.ParkRepository;
 import com.example.TennisReservation.Repository.ReservationRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.geo.Distance;
 import org.springframework.stereotype.Service;
 
 @Service

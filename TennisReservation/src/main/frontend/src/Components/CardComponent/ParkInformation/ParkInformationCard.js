@@ -16,15 +16,6 @@ export default class ParkInformationCard extends React.Component {
             Address: "",
             Phone: ""
         }
-       
-        this.handleChange = this.handleChange.bind(this)
-
-    }
-
-    async componentDidMount() {
-        await fetch("/ParkInformation/" + this.props.name)
-            .then(response => response.json())
-            .then(data => this.setState({Data: data}))
 
     }
 
@@ -34,7 +25,6 @@ export default class ParkInformationCard extends React.Component {
         }
 
         if (nextProps.name !== "Select Park") {
-        console.log(nextProps.name)
         await fetch("ParkInformation/" + nextProps.name)
             .then(response => response.json())
             .then(data => this.setState({Data: data}))
@@ -55,14 +45,6 @@ export default class ParkInformationCard extends React.Component {
     }
     
 
-    async handleChange(e) {
-       console.log(this.state.Data);
-
-        
-    }
-
-
- 
 
     render() {
         return (
