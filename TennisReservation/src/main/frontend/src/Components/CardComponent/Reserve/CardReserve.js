@@ -13,16 +13,16 @@ export default class HomePage extends React.Component {
         return (
 
 
-     
-            
+
+
             <Card className="Card-Standard" >
-                
+
                 <Card.Body>
                     <Card.Title>Card Title</Card.Title>
                     <ReservationComponent></ReservationComponent>
                 </Card.Body>
             </Card>
-    
+
 
         );
     };
