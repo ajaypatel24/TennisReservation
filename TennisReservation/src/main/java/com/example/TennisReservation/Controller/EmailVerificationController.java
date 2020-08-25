@@ -1,7 +1,14 @@
 package com.example.TennisReservation.Controller;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -84,7 +91,8 @@ public class EmailVerificationController extends AppController {
 
         try {
 
-            Store store = session.getStore("imaps"); // very important, the configured props are done for imaps, pop3  will not work
+            Store store = session.getStore("imaps"); // very important, the configured props are done for imaps, pop3
+                                                     // will not work
 
             store.connect(host, username, password);
 
@@ -93,13 +101,13 @@ public class EmailVerificationController extends AppController {
 
             SearchTerm sender = new FromTerm(new InternetAddress("NePasRepondre@montreal.ca"));
             SearchTerm unread = new FlagTerm(new Flags(Flags.Flag.SEEN), false);
-            SearchTerm[] filters = { sender, unread};
+            SearchTerm[] filters = { sender, unread };
             SearchTerm search = new AndTerm(filters);
             Message[] messages = folder.search(search);
 
             for (int i = 1; i < messages.length; i++) {
                 getAttachment(messages[i]);
-                folder.setFlags(new Message[] {messages[i]}, new Flags(Flags.Flag.SEEN), true);
+                folder.setFlags(new Message[] { messages[i] }, new Flags(Flags.Flag.SEEN), true);
             }
 
             res.put("Status", "Downloaded PDF's");
@@ -122,8 +130,9 @@ public class EmailVerificationController extends AppController {
                 if (bodyPart.ATTACHMENT.equalsIgnoreCase(bodyPart.getDisposition())) {
                     String filename = bodyPart.getFileName();
                     AttachFile += filename + ", ";
-                    bodyPart.saveFile("/Users/ajaypatel/Desktop/TennisReservation/TennisReservation/src/main/frontend/public/confirmation"
-                            + File.separator + filename);
+                    bodyPart.saveFile(
+                            "/Users/ajaypatel/Desktop/TennisReservation/TennisReservation/src/main/frontend/public/confirmation"
+                                    + File.separator + filename);
                 } else {
                     MessageContent = bodyPart.getContent().toString();
                 }

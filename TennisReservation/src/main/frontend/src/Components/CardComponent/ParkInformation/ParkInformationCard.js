@@ -14,7 +14,8 @@ export default class ParkInformationCard extends React.Component {
             Value: "",
             Park: "Select Park for more information",
             Address: "",
-            Phone: ""
+            Phone: "",
+            url: ""
         }
 
     }
@@ -29,10 +30,24 @@ export default class ParkInformationCard extends React.Component {
             .then(response => response.json())
             .then(data => this.setState({Data: data}))
 
-        await this.setState({Park: this.state.Data[0].park})
-        await this.setState({Address: this.state.Data[0].address})
-        await this.setState({Phone: this.state.Data[0].phoneNumber})
+        await this.setState({
+            Park: this.state.Data[0].park,
+            Address: this.state.Data[0].address,
+            Phone: this.state.Data[0].phoneNumber
+        })
+            if (this.state.Park === "Marcel-Laurin") {
+                this.setState({url: "https://montreal.ca/en/places/parc-marcel-laurin"})
+            }
+            else if (this.state.Park === "Marlborough") {
+                this.setState({url: "https://montreal.ca/en/places/parc-marlborough"})
+            }
+            else if (this.state.Park === "Noel-Sud") {
+                this.setState({url: "https://montreal.ca/en/places/parc-noel-sud"})
+            }
         }
+
+
+
 
         else {
             this.setState({
@@ -41,6 +56,8 @@ export default class ParkInformationCard extends React.Component {
                 Phone: ""
             })
         }
+
+
                             
     }
     
@@ -49,7 +66,6 @@ export default class ParkInformationCard extends React.Component {
     render() {
         return (
 
-           
             <Card className="Card-Standard" style={{ width: '100%', height:'100%'}}>
                 <Card.Body>
 
@@ -62,8 +78,15 @@ export default class ParkInformationCard extends React.Component {
                         
                     </Card.Text>
 
-                    <Card.Link href="#">Card Link</Card.Link>
-                    <Card.Link href="#">Another Link</Card.Link>
+                    {
+                        this.state.Park === "Select Park for more information"
+                        ?
+                        null
+                        :
+
+                    <Card.Link href={this.state.url} target="_blank">Park Website</Card.Link>
+            
+                    }
                 </Card.Body>
             </Card>
 

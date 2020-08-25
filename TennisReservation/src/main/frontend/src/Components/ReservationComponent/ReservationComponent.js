@@ -5,6 +5,7 @@ import '../BookingComponent/Bookings.css'
 import DatePicker from 'react-datepicker'
 import ParkInformationCard from '../CardComponent/ParkInformation/ParkInformationCard'
 import TimePicker from 'react-time-picker'
+import WeatherCardComponent from '../CardComponent/Weather/WeatherCardComponent'
 export default class ReservationComponent extends React.Component {
     constructor(props) {
         super(props);
@@ -157,78 +158,99 @@ export default class ReservationComponent extends React.Component {
                 <Card.Body>
 
                     <Form>
-                        <Row>
-                        <Col>
-                            <Form.Row>
-                                
+                       
+                       <Form.Row>
+                        <Form.Group as={Col}>
+                                        <Form.Row>
+                                            <Form.Group as={Col} lg="5" >
+                                                <Form.Label>Park</Form.Label>
+                                                <Form.Control
+                                                        as="select"
+                                                        name="Park"
+                                                        required
+                                                        type="text"
+                                                        placeholder="Business Name"
+                                                        onChange={this.handleChange}
+                                                        value={this.state.Park}>
 
-                            <Form.Group as={Col} lg="6">
-                                <Form.Label>Park</Form.Label>
-                                    <Form.Control
-                                            as="select"
-                                            name="Park"
-                                            required
-                                            type="text"
-                                            placeholder="Business Name"
-                                            onChange={this.handleChange}
-                                            value={this.state.Park}>
+                                                        <option>Select Park</option>
+                                                        <option value="marcel">Marcel-Laurin</option>
+                                                        <option value="marl">Marlborough</option>
+                                                        <option value="noel">Noel-Sud</option>
+                                                </Form.Control>
+                                        </Form.Group>
 
-                                            <option>Select Park</option>
-                                            <option value="marcel">Marcel-Laurin</option>
-                                            <option value="marl">Marlborough</option>
-                                            <option value="noel">Noel-Sud</option>
-                                    </Form.Control>
-                            </Form.Group>
+                                        <Form.Group as={Col} >
+                                            <Form.Label>Start Time</Form.Label>
+                                                <Form.Control
+                                                            name="StartTime"
+                                                            required
+                                                            type="text"
+                                                            placeholder="Start Time"
+                                                            onChange={this.handleChange}
+                                                            value={this.state.StartTime} />
+                                                <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                                        </Form.Group>
+                                        
+                                        <Form.Group as={Col}>
+                                            <Form.Label>End Time</Form.Label>
+                                                <Form.Control
+                                                            name="EndTime"
+                                                            required
+                                                            type="text"
+                                                            placeholder="End Time"
+                                                            onChange={this.handleChange}
+                                                            value={this.state.EndTime}
+                                                            pattern="^[a-zA-Z]+$"
+                                                        />
+                                                <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                                                
+                                        </Form.Group>
 
-                            <Form.Group as={Col} lg="3">
-                                <Form.Label>Start Time</Form.Label>
-                                    <Form.Control
-                                                name="StartTime"
-                                                required
-                                                type="text"
-                                                placeholder="Start Time"
-                                                onChange={this.handleChange}
-                                                value={this.state.StartTime} />
-                                    <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-                            </Form.Group>
-                            
-                            <Form.Group as={Col} lg="3">
-                                <Form.Label>End Time</Form.Label>
-                                    <Form.Control
-                                                name="EndTime"
-                                                required
-                                                type="text"
-                                                placeholder="End Time"
-                                                onChange={this.handleChange}
-                                                value={this.state.EndTime}
-                                                pattern="^[a-zA-Z]+$"
-                                            />
-                                    <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-                                    
-                            </Form.Group>
-                            
-                            
-                            </Form.Row>
+                                        </Form.Row>
 
-                            <Form.Row>
-                            <Form.Group as={Col}>
-                            <DatePicker
-                                        selected={this.state.t}
-                                        onChange={this.handleDateChange}
-                                        dateFormat="yyyy/MM/dd"
-                                        minDate={new Date()}
-                                        timeClassName={handleColor}
-                                        inline
-                                    />
-                            </Form.Group>
+                                        <Form.Row>
+                                        <Form.Group as={Col}>
+                                                <DatePicker
+                                                            selected={this.state.t}
+                                                            onChange={this.handleDateChange}
+                                                            dateFormat="yyyy/MM/dd"
+                                                            minDate={new Date()}
+                                                            timeClassName={handleColor}
+                                                            inline
+                                                        />
+                                                </Form.Group>
 
-                            <Form.Group as={Col}>
+                                                <Form.Group as={Col} lg="7">
+                           
                             <ParkInformationCard name={this.state.Park}></ParkInformationCard>
+                            
+                        </Form.Group>
+                                                </Form.Row>
+                                        
+                                        
+
+                                   
                         </Form.Group>
 
-                            </Form.Row>
 
-                            <Form.Row>
+                        
+
+
+
+
+
+                      
+                        <Form.Group as={Col} lg="4">
+                            <WeatherCardComponent></WeatherCardComponent>
+                        </Form.Group>
+
+                        </Form.Row>
+                       
+
+                            
+
+                        <Form.Row>
                             <Form.Group as={Col} lg="6">
                             {
                                         this.state.SubResponse === ""
@@ -259,10 +281,7 @@ export default class ReservationComponent extends React.Component {
 
                         <Button onClick={this.handleSubmit}>Submit</Button>
                         
-                        </Col>
                         
-                        
-                        </Row>
                     </Form>
 
                 </Card.Body>
