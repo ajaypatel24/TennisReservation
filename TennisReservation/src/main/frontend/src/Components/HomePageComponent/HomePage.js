@@ -19,7 +19,7 @@ export default class HomePage extends React.Component {
             <div>
                 <Col>
 
-                        <h1 className = "title">Welcome Back</h1>
+                    <h1 className = "title">Welcome Back</h1>
                     <Row className="Row-Grid">
 
                         <Col lg="4">
@@ -33,18 +33,15 @@ export default class HomePage extends React.Component {
                     </Row>
                 
                     <Row className="Row-Grid">
-                        <Col lg="8">
+                        <Col lg="7">
                         <ReservationComponent></ReservationComponent>
                         </Col>
-                        <Col lg="4">
-                        <CardComponentBase></CardComponentBase>
+                        <Col lg="5">
+                            <CardComponentBase></CardComponentBase>
                         </Col>
-                       
                     </Row>
               
-                    <Row className="Row-Grid">
-                        <Col lg="12"><CardComponentBase></CardComponentBase></Col>
-                    </Row>
+                    
 
                 </Col>
             </div>

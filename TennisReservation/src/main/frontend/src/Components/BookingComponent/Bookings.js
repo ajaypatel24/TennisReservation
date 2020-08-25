@@ -1,5 +1,5 @@
 import React from 'react';
-import {Col} from 'react-bootstrap'
+import {Col, Modal, Spinner} from 'react-bootstrap'
 import DatePicker from 'react-datepicker'
 import "react-datepicker/dist/react-datepicker.css"
 import './Bookings.css'
@@ -22,7 +22,8 @@ export default class Bookings extends React.Component{
         rangeArg2: "",
         switch: -1,
         selectedOption: "option1",
-        noresult: ""
+        noresult: "",
+        Downloading: true
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -32,9 +33,12 @@ export default class Bookings extends React.Component{
 }
 
 componentDidMount() {
+  
   fetch("/VerificationEmail/")
   .then(response => response.json())
-  //.then(data => console.log(data))
+  .then(data => this.setState({Downloading: false}))
+
+  
 }
 
 
@@ -43,11 +47,9 @@ async handleChange(date) {
     t: date,
     switch: 0
   });
-  console.log(this.state.t)
   await fetch("/Changedate/" + this.state.t)
   .then(response => response.json())
   .then(data => this.setState({p: data}))
-  console.log(this.state.t)
 
   await fetch("/ReservationDate/" + this.state.p.newDate)
   .then(response => response.json())
@@ -63,20 +65,13 @@ async handleChange(date) {
     })
   }
   
-  console.log(this.state.TableData)
-  console.log(this.state.noresult)
 
 };
 
 async changer(date, name) {
-  console.log(name);
   await this.setState({
     [name]: date
   })
-
-  console.log(this.state.range1);
-  console.log(this.state.range2);
-
 };
 
 handleOptionChange(e) {
@@ -109,7 +104,6 @@ async getRange() {
   .then(response => response.json())
   .then(data => this.setState({rangeArg2: data}))
 
-  console.log(this.state.range1.newDate)
   await fetch("/ReservationRange/" + this.state.rangeArg1.newDate + "/" + this.state.rangeArg2.newDate)
   .then(response => response.json())
   .then(data => this.setState({TableData: data}))
@@ -131,6 +125,14 @@ async getRange() {
         <div className="Container">
           <Col lg="12">
           <h3> Current Reservations </h3>
+
+         
+            <Modal size="lg"
+              aria-labelledby="contained-modal-title-vcenter"
+              centered show={this.state.Downloading}>
+              <Modal.Body><Spinner animation="border" /> Downloading New Confirmations</Modal.Body>
+            </Modal>
+          
 
         <div>
           {

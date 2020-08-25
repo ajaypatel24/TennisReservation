@@ -9,6 +9,7 @@ export default class HomePage extends React.Component {
 
         this.state = {
             TableData: [],
+            ParkData: [],
             url: "/confirmation/",
             pdf: ""
         };
@@ -21,6 +22,10 @@ export default class HomePage extends React.Component {
         fetch("/ReservationDate/" + moment().format("YYYY-MM-DD"))
             .then(response => response.json())
             .then(data => this.setState({TableData: data}))
+
+        fetch("ParkInformation/marl")
+            .then(response => response.json())
+            .then(data => this.setState({ParkData: data}))
     }
 
     handleRowClick = (event, rowData) => {
@@ -35,7 +40,6 @@ export default class HomePage extends React.Component {
             <Card style={{ width: '100%', height:'100%'}}>
                 <Card.Body>
                     <Card.Title>Todays Reservations</Card.Title>
-                    
                     <MaterialTable
           columns={[
             { title: 'Reservation File', field: 'confirmationPDF' },

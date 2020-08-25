@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card } from 'react-bootstrap'
+import { Card, Spinner } from 'react-bootstrap'
 import './CardCountComponent.css'
 import moment from 'moment'
 import { Chart } from 'react-google-charts'
@@ -56,15 +56,23 @@ export default class HomePage extends React.Component {
                             width={'100%'}
                             height={'50%'}
                             chartType="ColumnChart"
-                            loader={<div>Loading Chart</div>}
+                            loader={<div><Spinner animation="border" /></div>}
                             data={this.state.CourtData}
-                       
+                            options={{
+                                title: 'Distribution of Reserved Courts',
+                                chartArea: {width: '100%'},
+                                hAxis: {
+                                    title: 'Number of Courts'
+                                },
+                                vAxis: {
+                                    title: 'Court Number'
+                                }
+                            }}
+                            legendToggle
                             
                         />
                     </Card.Text>
 
-                    <Card.Link href="#">Card Link</Card.Link>
-                    <Card.Link href="#">Another Link</Card.Link>
                 </Card.Body>
             </Card>
 
