@@ -1,6 +1,27 @@
 I don't like people reserving all the Tennis courts, so I automated reserving all the Tennis courts 
 ==========================
 
+
+ Screenshots
+ ====================
+ 
+  ## Main Dashboard
+ ![Screen Shot 2020-08-25 at 2 02 09 PM](https://user-images.githubusercontent.com/35381714/91214285-dba04d00-e6e0-11ea-8e5c-d91db82113dd.png)
+ 
+  ## Reservation List By Date
+ ![Screen Shot 2020-08-25 at 2 02 58 PM](https://user-images.githubusercontent.com/35381714/91214302-dfcc6a80-e6e0-11ea-9dcc-1b9ca4f9e921.png)
+ 
+ 
+ Technologies used
+ =============
+ * Java Spring + Maven
+ * Selenium Driver
+ * Java Mail
+ * ReactJS
+ * React Bootstrap
+ * OpenWeatherMap API
+ * PostgreSQL
+
 ## This project follows an organized development pipeline involving 2 main branches
 
 
@@ -40,3 +61,10 @@ I don't like people reserving all the Tennis courts, so I automated reserving al
 
 * These branches are created according to codes of *issues* in this repository.
  They are related to any form of deployment
+ 
+ 
+ 
+ 
+ 
+
+ 
