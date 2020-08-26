@@ -21,6 +21,8 @@ I don't like people reserving all the Tennis courts, so I automated reserving al
  * React Bootstrap
  * OpenWeatherMap API
  * PostgreSQL
+ * Heroku (project is currently connected to a remote database)
+ 
 
 ## This project follows an organized development pipeline involving 2 main branches
 
